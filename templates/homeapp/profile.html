@@ -1,0 +1,342 @@
+{% extends "homeapp/base.html" %} {% load static %} {% block css %}
+<link
+  rel="shortcut icon"
+  type="image/x-icon"
+  href="/static/admin_assets/imgs/theme/favicon.svg"
+/>
+<!-- Template CSS -->
+<link
+  href="/static/admin_assets/css/main.css?v=1.1"
+  rel="stylesheet"
+  type="text/css"
+/>
+{% endblock css%} {% block content %}
+<section class="content-main">
+  <div class="content-header">
+    <h2 class="content-title">Profile setting</h2>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="row gx-5">
+        <div class="col-lg-9">
+          <section class="content-body p-xl-4">
+            <form method="POST" action="{% url 'editprofile' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% if messages%}
+        {% for message in messages%}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <strong></strong>{{message}}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {%endfor%}
+        {%endif%}
+              <div class="row">
+                <div class="col-lg-8">
+                  <div class="row gx-3">
+                    <div class="col-6 mb-3">
+                      <label class="form-label">First name</label>
+                      <input
+                        class="form-control"
+                        type="text"
+                        value="{{ request.user.first_name }}"
+                        name="fname"
+                      />
+                    </div>
+                    <!-- col .// -->
+                    <div class="col-6 mb-3">
+                      <label class="form-label">Last name</label>
+                      <input
+                        class="form-control"
+                        type="text"
+                        placeholder="Type here"
+                        value="{{ request.user.last_name }}"
+                        name="lname"
+                      />
+                    </div>
+                    <!-- col .// -->
+                    <div class="col-lg-6 mb-3">
+                      <label class="form-label">Email</label>
+                      <input
+                        class="form-control"
+                        type="email"
+                        placeholder="example@mail.com"
+                        value="{{ request.user.email }}"
+                        name="email"
+                      />
+                    </div>
+                    <!-- col .// -->
+                    <div class="col-lg-6 mb-3">
+                      <label class="form-label">Phone</label>
+                      <input
+                        class="form-control"
+                        type="tel"
+                        placeholder="Enter your phone number"
+                        name="phone"
+                        value="{{ user_profile.phone_no}}"
+                      />
+                    </div>
+                    <!-- col .// -->
+                    <div class="col-lg-12 mb-3">
+                      <label class="form-label">Address</label>
+                      <input
+                        class="form-control"
+                        type="text"
+                        placeholder="Type here"
+                        name="address"
+                        value="{{ user_profile.address }}"
+                      />
+                    </div>
+                    <!-- col .// -->
+                    <div class="col-lg-12 mb-3">
+                      <label class="form-label">City</label>
+                      <input
+                        class="form-control"
+                        type="text"
+                        placeholder="Type here"
+                        name="city"
+                        value="{{ user_profile.city}}"
+                      />
+                    </div>
+                    <!-- col .// -->
+                    <div class="col-lg-12 mb-3">
+                      <label class="form-label">State</label>
+                      <input
+                        class="form-control"
+                        type="text"
+                        placeholder="Type here"
+                        name="state"
+                        value="{{ user_profile.state}}"
+                      />
+                    </div>
+                    <!-- col .// -->
+                    <div class="col-lg-12 mb-3">
+                      <label class="form-label">Country</label>
+                      <input
+                        class="form-control"
+                        type="text"
+                        placeholder="Type here"
+                        name="country"
+                        value="{{ user_profile.country}}"
+                      />
+                    </div>
+                    <!-- col .// -->
+                  </div>
+                  <!-- row.// -->
+                </div>
+                <!-- col.// -->
+                <aside class="col-lg-4 p-5">
+                  <figure class="text-lg-center">
+                    <img
+                      class="img-lg mb-3 img-avatar"
+                      src="{{ user_profile.profile_picture.url }}"
+                      alt="User Photo"
+                      value="{{ user_profile.profile_picture }}"
+                    />
+                    <figcaption>
+                      <input
+                        class="btn btn-light rounded font-md"
+                        type="file"
+                        name="image"
+                      />
+                      <i class="icons material-icons md-backup font-md"></i>
+                    </figcaption>
+                  </figure>
+                </aside>
+                <!-- col.// -->
+              </div>
+              <!-- row.// -->
+              <br />
+              <button class="btn btn-primary" type="submit">
+                Save changes
+              </button>
+            </form>
+            <hr class="my-5" />
+            <div class="row" style="max-width: 920px">
+              <div class="col-md">
+                <article class="box mb-3 bg-light">
+                  <a
+                    class="btn float-end btn-light btn-sm rounded font-md"
+                    href="{% url 'changepassword' %}"
+                    >Change</a
+                  >
+                  <h6>Password</h6>
+                  <small class="text-muted d-block" style="width: 70%"
+                    >You can reset or change your password by clicking
+                    here</small
+                  >
+                </article>
+              </div>
+              <!-- col.// -->
+              <div class="col-md">
+                <article class="box mb-3 bg-light">
+                  <a
+                    class="btn float-end btn-light rounded btn-sm font-md"
+                    href="#"
+                    >Deactivate</a
+                  >
+                  <h6>Remove account</h6>
+                  <small class="text-muted d-block" style="width: 70%"
+                    >Once you delete your account, there is no going
+                    back.</small
+                  >
+                </article>
+              </div>
+              <!-- col.// -->
+            </div>
+            <!-- row.// -->
+          </section>
+          <!-- content-body .// -->
+        </div>
+        <!-- col.// -->
+      </div>
+      <!-- row.// -->
+    </div>
+    <!-- card body end// -->
+  </div>
+  <!-- card end// -->
+</section>
+{% endblock content%} {% block script_section %}
+<!--jQuery-->
+<script src="static/js/jquery-2.2.3.min.js"></script>
+<!--search jQuery-->
+<script src="static/js/modernizr-2.6.2.min.js"></script>
+<script src="static/js/classie-search.js"></script>
+<script src="static/js/demo1-search.js"></script>
+<!--//search jQuery-->
+<!-- cart-js -->
+<script src="static/js/minicart.js"></script>
+<script>
+  googles.render();
+
+  googles.cart.on("googles_checkout", function (evt) {
+    var items, len, i;
+
+    if (this.subtotal() > 0) {
+      items = this.items();
+
+      for (i = 0, len = items.length; i < len; i++) {}
+    }
+  });
+</script>
+<!-- //cart-js -->
+<script>
+  $(document).ready(function () {
+    $(".button-log a").click(function () {
+      $(".overlay-login").fadeToggle(200);
+      $(this).toggleClass("btn-open").toggleClass("btn-close");
+    });
+  });
+  $(".overlay-close1").on("click", function () {
+    $(".overlay-login").fadeToggle(200);
+    $(".button-log a").toggleClass("btn-open").toggleClass("btn-close");
+    open = false;
+  });
+</script>
+<!-- carousel -->
+<!-- Count-down -->
+<script src="static/js/simplyCountdown.js"></script>
+<link href="static/css/simplyCountdown.css" rel="stylesheet" type="text/css" />
+<script>
+  var d = new Date();
+  simplyCountdown("simply-countdown-custom", {
+    year: d.getFullYear(),
+    month: d.getMonth() + 2,
+    day: 25,
+  });
+</script>
+<!--// Count-down -->
+<script src="static/js/owl.carousel.js"></script>
+<script>
+  $(document).ready(function () {
+    $(".owl-carousel").owlCarousel({
+      loop: true,
+      margin: 10,
+      responsiveClass: true,
+      responsive: {
+        0: {
+          items: 1,
+          nav: true,
+        },
+        600: {
+          items: 2,
+          nav: false,
+        },
+        900: {
+          items: 3,
+          nav: false,
+        },
+        1000: {
+          items: 4,
+          nav: true,
+          loop: false,
+          margin: 20,
+        },
+      },
+    });
+  });
+</script>
+
+<!-- //end-smooth-scrolling -->
+
+<!-- dropdown nav -->
+<script>
+  $(document).ready(function () {
+    $(".dropdown").hover(
+      function () {
+        $(".dropdown-menu", this).stop(true, true).slideDown("fast");
+        $(this).toggleClass("open");
+      },
+      function () {
+        $(".dropdown-menu", this).stop(true, true).slideUp("fast");
+        $(this).toggleClass("open");
+      }
+    );
+  });
+</script>
+<!-- //dropdown nav -->
+<script src="static/js/move-top.js"></script>
+<script src="static/js/easing.js"></script>
+<script>
+  jQuery(document).ready(function ($) {
+    $(".scroll").click(function (event) {
+      event.preventDefault();
+      $("html,body").animate(
+        {
+          scrollTop: $(this.hash).offset().top,
+        },
+        900
+      );
+    });
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    /*
+                                var defaults = {
+                                      containerID: 'toTop', // fading element id
+                                    containerHoverID: 'toTopHover', // fading element hover id
+                                    scrollSpeed: 1200,
+                                    easingType: 'linear' 
+                                 };
+                                */
+
+    $().UItoTop({
+      easingType: "easeOutQuart",
+    });
+  });
+</script>
+<!--// end-smoth-scrolling -->
+
+<script src="static/js/bootstrap.js"></script>
+<!-- js file -->
+<script src="/static/admin_assets/js/vendors/jquery-3.6.0.min.js"></script>
+<script src="/static/admin_assets/js/vendors/bootstrap.bundle.min.js"></script>
+<script src="/static/admin_assets/js/vendors/select2.min.js"></script>
+<script src="/static/admin_assets/js/vendors/perfect-scrollbar.js"></script>
+<script src="/static/admin_assets/js/vendors/jquery.fullscreen.min.js"></script>
+<!-- Main Script -->
+<script
+  src="/static/admin_assets/js/main.js?v=1.1"
+  type="text/javascript"
+></script>
+{% endblock script_section %}

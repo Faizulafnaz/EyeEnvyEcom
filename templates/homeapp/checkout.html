@@ -1,0 +1,310 @@
+<!--
+	Author: W3layouts
+	Author URL: http://w3layouts.com
+	License: Creative Commons Attribution 3.0 Unported
+	License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+{% extends "homeapp/base.html" %}
+{% block css %}
+<script>
+	addEventListener("load", function () {
+		setTimeout(hideURLbar, 0);
+	}, false);
+
+	function hideURLbar() {
+		window.scrollTo(0, 1);
+	}
+</script>
+<link href="/static/css/bootstrap.css" rel='stylesheet' type='text/css' />
+<link href="/static/css/login_overlay.css" rel='stylesheet' type='text/css' />
+<link href="/static/css/style6.css" rel='stylesheet' type='text/css' />
+<link rel="stylesheet" href="/static/css/shop.css" type="text/css" />
+<link rel="stylesheet" type="text/css" href="/static/css/checkout.css">
+<link href="/static/css/easy-responsive-tabs.css" rel='stylesheet' type='text/css' />
+<link href="/static/css/style.css" rel='stylesheet' type='text/css' />
+<link href="/static/css/fontawesome-all.css" rel="stylesheet">
+<link href="//fonts.googleapis.com/css?family=Inconsolata:400,700" rel="stylesheet">
+<link
+	href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800"
+	rel="stylesheet">
+	<link href="/static/css/style copy.css" rel="stylesheet">
+{% endblock css %}
+{% block content %}
+<!-- banner -->
+<div class="banner_inner">
+	<div class="services-breadcrumb">
+		<div class="inner_breadcrumb">
+
+			<ul class="short">
+				<li>
+					<a href="index.html">Home</a>
+					<i>|</i>
+				</li>
+				<li>Cart<i>|</i></li>
+				<li>checkout</li>
+			</ul>
+		</div>
+	</div>
+
+</div>
+<!--//banner -->
+</div>
+<!--// header_top -->
+<!--checkout-->
+
+
+ <!-- Checkout Start -->
+ <div class="container-fluid pt-5">
+
+	<div class="row px-xl-5">
+		<div class="row">
+		<div style="display:inline;">
+		<h4 class="font-weight-semi-bold mb-4">Select an existing Address</h4>
+		</div>
+		<div class="col-md-6 form-group">
+		<form action="{% url 'placeorder' %}" method="POST">
+			{% csrf_token %}	
+			<label>Address</label>
+			<br>
+			<select class="custom-select" name = "address">
+				{% for address in addresses %}
+				<option value="{{ address.id }}">{{ address }},
+					<br>{{ address.house_name }}</option>
+				{% endfor %}
+			</select>
+		
+			<br>
+			<br>
+			<div>
+				<button class="btn btn-lg btn-block btn-danger font-weight-bold" type="submit">Place Order</button>
+			</div>
+		</form>
+		</div>
+	</div>
+	
+	</div>
+	<br>
+	<br>
+	<br>
+	<form action="{% url 'adduseraddress' %}" method ="POST">
+		{% csrf_token %}
+		<div class="col-lg-11">
+			<div class="mb-4">
+				<h4 class="font-weight-semi-bold mb-4">Billing Address</h4>
+				<div class="row">
+
+					<div class="col-md-6 form-group">
+						<label>Name</label>
+						<input class="form-control" type="text" placeholder="Name" required name="name">
+					</div>
+					<div class="col-md-6 form-group">
+						<label>Mobile Number</label>
+						<input class="form-control" type="text" placeholder="Mobile Number" required name="ph_no">
+					</div>
+					<div class="col-md-6 form-group">
+						<label>House Name</label>
+						<input class="form-control" type="text" placeholder="House Name" required name="house">
+					</div>
+					<div class="col-md-6 form-group">
+						<label>Landmark</label>
+						<input class="form-control" type="text" placeholder="Landmark" required name="landmark">
+					</div>
+					<div class="col-md-6 form-group">
+						<label>District</label>
+						<input class="form-control" type="text" placeholder="District" required name="district">
+					</div>
+					<div class="col-md-6 form-group">
+						<label>City</label>
+						<input class="form-control" type="text" placeholder="City"required name="city">
+					</div>
+					<div class="col-md-6 form-group">
+						<label>State</label>
+						<input class="form-control" type="text" placeholder="state"required name="state">
+					</div>
+					<div class="col-md-6 form-group">
+						<label>Country</label>
+						<input class="form-control" type="text" placeholder="country"required name="country">
+					</div>
+					<div class="col-md-6 form-group">
+						<label>Pin Code</label>
+						<input class="form-control" type="text" placeholder="Pincode"required name="pincode">
+					</div>
+					<div class="col-md-6 form-group">
+
+					</div>
+				
+					<div>
+						<button class="btn btn-lg btn-block btn-danger font-weight-bold my-3 mx-3" type="submit">Place Order</button>
+					</div>
+			
+				</div>
+			</div>
+		</div>
+	</form>
+	</div>
+
+
+	
+
+</div>
+
+<!-- Checkout End -->
+
+{% endblock %}
+{% block script_section %}
+<script src="/static/js/jquery-2.2.3.min.js"></script>
+<!-- newsletter modal -->
+<!--search jQuery-->
+<script src="/static/js/modernizr-2.6.2.min.js"></script>
+<script src="/static/js/classie-search.js"></script>
+<script src="/static/js/demo1-search.js"></script>
+<!--//search jQuery-->
+<!-- cart-js -->
+<script src="/static/js/minicart.js"></script>
+<script>
+	googles.render();
+
+	googles.cart.on('googles_checkout', function (evt) {
+		var items, len, i;
+
+		if (this.subtotal() > 0) {
+			items = this.items();
+
+			for (i = 0, len = items.length; i < len; i++) { }
+		}
+	});
+</script>
+<!-- //cart-js -->
+<script>
+	$(document).ready(function () {
+		$(".button-log a").click(function () {
+			$(".overlay-login").fadeToggle(200);
+			$(this).toggleClass('btn-open').toggleClass('btn-close');
+		});
+	});
+	$('.overlay-close1').on('click', function () {
+		$(".overlay-login").fadeToggle(200);
+		$(".button-log a").toggleClass('btn-open').toggleClass('btn-close');
+		open = false;
+	});
+</script>
+<!-- carousel -->
+<!-- easy-responsive-tabs -->
+<script src="/static/js/easy-responsive-tabs.js"></script>
+<script>
+	$(document).ready(function () {
+		$('#horizontalTab').easyResponsiveTabs({
+			type: 'default', //Types: default, vertical, accordion           
+			width: 'auto', //auto or any width like 600px
+			fit: true, // 100% fit in a container
+			closed: 'accordion', // Start closed if in accordion view
+			activate: function (event) { // Callback function if tab is switched
+				var $tab = $(this);
+				var $info = $('#tabInfo');
+				var $name = $('span', $info);
+				$name.text($tab.text());
+				$info.show();
+			}
+		});
+		$('#verticalTab').easyResponsiveTabs({
+			type: 'vertical',
+			width: 'auto',
+			fit: true
+		});
+	});
+</script>
+<!--quantity-->
+<script>
+	$('.value-plus').on('click', function () {
+		var divUpd = $(this).parent().find('.value'),
+			newVal = parseInt(divUpd.text(), 10) + 1;
+		divUpd.text(newVal);
+	});
+
+	$('.value-minus').on('click', function () {
+		var divUpd = $(this).parent().find('.value'),
+			newVal = parseInt(divUpd.text(), 10) - 1;
+		if (newVal >= 1) divUpd.text(newVal);
+	});
+</script>
+<!--quantity-->
+<!--close-->
+<script>
+	$(document).ready(function (c) {
+		$('.close1').on('click', function (c) {
+			$('.rem1').fadeOut('slow', function (c) {
+				$('.rem1').remove();
+			});
+		});
+	});
+</script>
+<script>
+	$(document).ready(function (c) {
+		$('.close2').on('click', function (c) {
+			$('.rem2').fadeOut('slow', function (c) {
+				$('.rem2').remove();
+			});
+		});
+	});
+</script>
+<script>
+	$(document).ready(function (c) {
+		$('.close3').on('click', function (c) {
+			$('.rem3').fadeOut('slow', function (c) {
+				$('.rem3').remove();
+			});
+		});
+	});
+</script>
+<!--//close-->
+
+<!-- dropdown nav -->
+<script>
+	$(document).ready(function () {
+		$(".dropdown").hover(
+			function () {
+				$('.dropdown-menu', this).stop(true, true).slideDown("fast");
+				$(this).toggleClass('open');
+			},
+			function () {
+				$('.dropdown-menu', this).stop(true, true).slideUp("fast");
+				$(this).toggleClass('open');
+			}
+		);
+	});
+</script>
+<!-- //dropdown nav -->
+<script src="/static/js/move-top.js"></script>
+<script src="/static/js/easing.js"></script>
+<script>
+	jQuery(document).ready(function ($) {
+		$(".scroll").click(function (event) {
+			event.preventDefault();
+			$('html,body').animate({
+				scrollTop: $(this.hash).offset().top
+			}, 900);
+		});
+	});
+</script>
+<script>
+	$(document).ready(function () {
+		/*
+								var defaults = {
+									  containerID: 'toTop', // fading element id
+									containerHoverID: 'toTopHover', // fading element hover id
+									scrollSpeed: 1200,
+									easingType: 'linear' 
+								 };
+								*/
+
+		$().UItoTop({
+			easingType: 'easeOutQuart'
+		});
+
+	});
+</script>
+<!--// end-smoth-scrolling -->
+
+
+<script src="/static/js/bootstrap.js"></script>
+{% endblock %}

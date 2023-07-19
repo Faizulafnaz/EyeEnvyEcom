@@ -1,0 +1,96 @@
+{% extends 'adminpanel/base.html' %}
+{% block content %}
+      <section class="content-main">
+        <div class="content-header">
+          <div>
+            <h2 class="content-title card-title">Brands</h2>
+            <p>Add, edit or delete a Brand</p>
+          </div>
+          <div>
+            <input
+              type="text"
+              placeholder="Search Categories"
+              class="form-control bg-white"
+            />
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-3">
+                <form method="POST" enctype="multipart/form-data" action="{% url 'editbrand' brand.id %}">
+                  {% csrf_token %}{% if messages %}
+                  {% for message in messages %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                      <strong></strong>{{ message }}
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                  {% endfor %}
+                {% endif %}
+                
+                  <div class="mb-4">
+                    <label for="product_name" class="form-label">Name</label>
+                    <input
+                      type="text"
+                      value="{{ brand.brand_name }}"
+                      class="form-control"
+                      id="product_name"
+                      name = "name"
+                    />
+                  </div>
+
+
+                  <div class="mb-4">
+                    <label class="form-label">Description</label>
+                    <textarea
+                      value = "brand.brand_desc"
+                      placeholder="Type here"
+                      class="form-control"
+                      name = "desc"
+                    ></textarea>
+                  </div>
+                  
+                    <div class="d-grid">
+                        <button class="btn btn-primary" type="submit">Add</button>
+                      </div>
+                 
+                </form>
+              </div>
+              <div class="col-md-9">
+                <div class="table-responsive">
+                </div>
+              </div>
+              <!-- .col// -->
+            </div>
+            <!-- .row // -->
+          </div>
+          <!-- card body .// -->
+        </div>
+        <!-- card .// -->
+      </section>
+      <!-- content-main end// -->
+      <footer class="main-footer font-xs">
+        <div class="row pb-30 pt-15">
+          <div class="col-sm-6">
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            &copy; Nest - HTML Ecommerce Template .
+          </div>
+          <div class="col-sm-6">
+            <div class="text-sm-end">All rights reserved</div>
+          </div>
+        </div>
+      </footer>
+      {% endblock content %}
+    </main>
+    <script src="/static/admin_assets/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="/static/admin_assets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="/static/admin_assets/js/vendors/select2.min.js"></script>
+    <script src="/static/admin_assets/js/vendors/perfect-scrollbar.js"></script>
+    <script src="/static/admin_assets/js/vendors/jquery.fullscreen.min.js"></script>
+    <!-- Main Script -->
+    <script src="/static/admin_assets/js/main.js?v=1.1" type="text/javascript"></script>
+
+  </body>
+</html>

@@ -1,0 +1,350 @@
+{% extends "homeapp/base.html" %} {% load static %} {% block css %}
+<script>
+	addEventListener("load", function () {
+		setTimeout(hideURLbar, 0);
+	}, false);
+
+	function hideURLbar() {
+		window.scrollTo(0, 1);
+	}
+</script>
+<link href="/static/css/bootstrap.css" rel='stylesheet' type='text/css' />
+<link href="/static/css/login_overlay.css" rel='stylesheet' type='text/css' />
+<link href="/static/css/style6.css" rel='stylesheet' type='text/css' />
+<link rel="stylesheet" href="/static/css/shop.css" type="text/css" />
+<link rel="stylesheet" type="text/css" href="/static/css/checkout.css">
+<link href="/static/css/easy-responsive-tabs.css" rel='stylesheet' type='text/css' />
+<link href="/static/css/style.css" rel='stylesheet' type='text/css' />
+<link href="/static/css/fontawesome-all.css" rel="stylesheet">
+<link href="//fonts.googleapis.com/css?family=Inconsolata:400,700" rel="stylesheet">
+<link href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800"
+	rel="stylesheet">
+
+{% endblock css%} {% block content %}
+<section class="banner-bottom-wthreelayouts py-lg-5 py-3">
+    <div class="container">
+        {% if not myorders %}
+    
+        <h1>Your shopping cart is empty</h1>
+        <br>
+        <br>
+        <div class="col-md-4 checkout-left-basket" >
+            <a href = "{% url 'store' %}"><h4>Continue to basket</h4></a>
+            <ul style="border: 1px solid black dashed;">
+            </div>
+        <br>
+        <br>
+    
+        {% else %}
+        <div class="inner-sec-shop px-lg-4 px-3">
+            <h3 class="tittle-w3layouts my-lg-4 mt-3">My Orders</h3>
+            <div class="checkout-right">
+                <h4>Your order details:
+                    <span>{{count}}</span>
+                </h4>
+                <table class="timetable_sub">
+                    <thead>
+                        <tr>
+                            <th>Order ID.</th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Product Name</th>
+    
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in myorders %}
+                        <tr class="rem1">
+                            <td class="invert">{{ item.order.order_id }}</td>
+                            <td class="invert-image">
+                                <a href="">
+                                    <img src="{{ item.product.images.url }}" alt=" " class="img-responsive">
+                                </a>
+                            </td>
+                            <td class="invert">
+                        
+                                            <span>{{ item.quantity }}</span>
+                                 
+                            </td>
+                            <td class="invert">{{ item.product.product_name }}</td>
+    
+                            <td class="invert">{{ item.sub_total }}</td>
+                            <td class="invert">{{ item.status }}</td>
+                            <td class="invert p-3">
+                                <div class="rem">
+                                  {% if item.status == "accepted" or item.status == "Shipped"%}
+                                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal{{item.id}}">Cancel</button>
+                                  <!-- Button trigger modal -->
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal{{item.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel{{ item.id }}" aria-hidden="true">
+                                      <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h3 class="modal-title" id="exampleModalLabel{{ item.id }}">Order Cancelation</h3>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                            </button>
+                                          </div>
+                                          <div class="modal-body">
+                                            Do you want to cancel your order of {{ item.product.product_name }}?
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <a href="{% url 'cancelorder' item.id %}"><button type="button" class="btn btn-danger">Yes</button></a>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  {% elif item.status == "Delivered"%}
+                                  <button type="button" class="btn btn-warning">Return</button>
+                                  {% else %}
+                                  <span>No action available</span>
+                                  {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% comment %} <div class="checkout-left row">
+                <div class="col-md-4 checkout-left-basket " >
+                    <a href = "{% url 'store' %}"><h4>Continue to basket</h4></a>
+                    <ul style="border: 1px solid black dashed;">
+                        {% for cart_item in cart_items %}
+                        
+                        
+                        <li>{{ cart_item.product.product_name }}
+                            <i>-</i>
+                            <span>{{ cart_item.sub_total }}</span>
+                        </li>
+                        {% endfor %}
+    
+                        <li>Total Service Charges
+                            <i>-</i>
+                            <span>Free Delivery <del>99</del> </span>
+                        </li>
+                        <li style="font-size: 1em;
+                        color: #212121;
+                        font-weight: 600;
+                        padding: 1em 0;
+                        border-top: 1px solid #DDD;
+                        border-bottom: 1px solid #DDD;
+                        margin: 2em 0 0;"><b>Total</b>
+                            <i>-</i>
+                            <span><b>{{ total }}</b></span>
+                        </li>
+                    </ul>
+                    <div class="checkout-right-basket">
+                        <a href="{% url 'checkout' %}">Buy Now</a>
+                    </div>
+                </div> 
+            {% comment %} 	<div class="col-md-4  address_form">
+                    
+                    <h4>Add a new Details</h4>
+                    <form action="payment.html" method="post" class="creditly-card-form agileinfo_form">
+                        <section class="creditly-wrapper wrapper">
+                            <div class="information-wrapper">
+                                <div class="first-row form-group">
+                                    <div class="controls">
+                                        <label class="control-label">Full name: </label>
+                                        <input class="billing-address-name form-control" type="text" name="name" placeholder="Full name">
+                                    </div>
+                                    <div class="card_number_grids">
+                                        <div class="card_number_grid_left">
+                                            <div class="controls">
+                                                <label class="control-label">Mobile number:</label>
+                                                <input class="form-control" type="text" placeholder="Mobile number">
+                                            </div>
+                                        </div>
+                                        <div class="card_number_grid_right">
+                                            <div class="controls">
+                                                <label class="control-label">Landmark: </label>
+                                                <input class="form-control" type="text" placeholder="Landmark">
+                                            </div>
+                                        </div>
+                                        <div class="clear"> </div>
+                                    </div>
+                                    <div class="controls">
+                                        <label class="control-label">Town/City: </label>
+                                        <input class="form-control" type="text" placeholder="Town/City">
+                                    </div>
+                                    <div class="controls">
+                                        <label class="control-label">Address type: </label>
+                                        <select class="form-control option-w3ls">
+                                            <option>Office</option>
+                                            <option>Home</option>
+                                            <option>Commercial</option>
+    
+                                        </select>
+                                    </div>
+                                </div>
+                                <button class="submit check_out">Delivery to this Address</button>
+                            </div>
+                        </section>
+                    </form>
+                    <div class="checkout-right-basket">
+                        <a href="payment.html">Make a Payment </a>
+                    </div> 
+                </div>
+    
+                <div class="clearfix"> </div>
+    
+            </div> {% endcomment %}
+    
+        </div>
+        {% endif %}
+    
+    </div>
+    </section>
+    
+
+{% endblock content%} {% block script_section %}
+<!--jQuery-->
+<script src="/static/js/jquery-2.2.3.min.js"></script>
+<!--search jQuery-->
+<script src="/static/js/modernizr-2.6.2.min.js"></script>
+<script src="/static/js/classie-search.js"></script>
+<script src="/static/js/demo1-search.js"></script>
+<!--//search jQuery-->
+<!-- cart-js -->
+<script src="/static/js/minicart.js"></script>
+<script>
+  googles.render();
+
+  googles.cart.on("googles_checkout", function (evt) {
+    var items, len, i;
+
+    if (this.subtotal() > 0) {
+      items = this.items();
+
+      for (i = 0, len = items.length; i < len; i++) {}
+    }
+  });
+</script>
+<!-- //cart-js -->
+<script>
+  $(document).ready(function () {
+    $(".button-log a").click(function () {
+      $(".overlay-login").fadeToggle(200);
+      $(this).toggleClass("btn-open").toggleClass("btn-close");
+    });
+  });
+  $(".overlay-close1").on("click", function () {
+    $(".overlay-login").fadeToggle(200);
+    $(".button-log a").toggleClass("btn-open").toggleClass("btn-close");
+    open = false;
+  });
+</script>
+<!-- carousel -->
+<!-- Count-down -->
+<script src="/static/js/simplyCountdown.js"></script>
+<link href="static/css/simplyCountdown.css" rel="stylesheet" type="text/css" />
+<script>
+  var d = new Date();
+  simplyCountdown("simply-countdown-custom", {
+    year: d.getFullYear(),
+    month: d.getMonth() + 2,
+    day: 25,
+  });
+</script>
+<!--// Count-down -->
+<script src="/static/js/owl.carousel.js"></script>
+<script>
+  $(document).ready(function () {
+    $(".owl-carousel").owlCarousel({
+      loop: true,
+      margin: 10,
+      responsiveClass: true,
+      responsive: {
+        0: {
+          items: 1,
+          nav: true,
+        },
+        600: {
+          items: 2,
+          nav: false,
+        },
+        900: {
+          items: 3,
+          nav: false,
+        },
+        1000: {
+          items: 4,
+          nav: true,
+          loop: false,
+          margin: 20,
+        },
+      },
+    });
+  });
+</script>
+
+<!-- //end-smooth-scrolling -->
+
+<!-- dropdown nav -->
+<script>
+  $(document).ready(function () {
+    $(".dropdown").hover(
+      function () {
+        $(".dropdown-menu", this).stop(true, true).slideDown("fast");
+        $(this).toggleClass("open");
+      },
+      function () {
+        $(".dropdown-menu", this).stop(true, true).slideUp("fast");
+        $(this).toggleClass("open");
+      }
+    );
+  });
+</script>
+<!-- //dropdown nav -->
+<script src="/static/js/move-top.js"></script>
+<script src="/static/js/easing.js"></script>
+<script>
+  jQuery(document).ready(function ($) {
+    $(".scroll").click(function (event) {
+      event.preventDefault();
+      $("html,body").animate(
+        {
+          scrollTop: $(this.hash).offset().top,
+        },
+        900
+      );
+    });
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    /*
+                                var defaults = {
+                                      containerID: 'toTop', // fading element id
+                                    containerHoverID: 'toTopHover', // fading element hover id
+                                    scrollSpeed: 1200,
+                                    easingType: 'linear' 
+                                 };
+                                */
+
+    $().UItoTop({
+      easingType: "easeOutQuart",
+    });
+  });
+</script>
+<!--// end-smoth-scrolling -->
+
+<script src="/static/js/bootstrap.js"></script>
+<!-- js file -->
+<script src="/static/admin_assets/js/vendors/jquery-3.6.0.min.js"></script>
+<script src="/static/admin_assets/js/vendors/bootstrap.bundle.min.js"></script>
+<script src="/static/admin_assets/js/vendors/select2.min.js"></script>
+<script src="/static/admin_assets/js/vendors/perfect-scrollbar.js"></script>
+<script src="/static/admin_assets/js/vendors/jquery.fullscreen.min.js"></script>
+<!-- Main Script -->
+<script
+  src="/static/admin_assets/js/main.js?v=1.1"
+  type="text/javascript"
+></script>
+{% endblock script_section %}

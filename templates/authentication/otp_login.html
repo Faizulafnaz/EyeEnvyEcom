@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!-- Created By CodingNepal -->
+<html lang="en" dir="ltr">
+   <head>
+      <meta charset="utf-8">
+      <title>Login Form Design | CodeLab</title>
+      <link rel="stylesheet" href="/static/css/stylelogin.css">
+   </head>
+   <body>
+      <div class="wrapper">
+         <div class="title">
+            Login Form
+         </div>
+         <form action="{% url 'otp_login' %}" method="POST">
+            {% csrf_token %}
+            {% if messages%}
+                      {% for message in messages%}
+                      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong></strong>{{message}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                      {%endfor%}
+                      {%endif%} 
+            <div class="field">
+               <input name="email" id = "email" {% if otp %} value="{{usr.email}}" type="hidden" {% else %} type="email" {% endif %} required>
+               <label>Email</label>
+            </div>
+            {% if otp %}
+            <div class="field">
+               <input type="password"  name="otp" id = "otp" required>
+               <label>OTP</label>
+            </div>
+            <div class="field">
+                <input type="submit" value="Login">
+             </div>
+            {% else %}
+            <div class="field">
+                <input type="submit" value="Get OTP">
+             </div>
+             
+            <div class="signup-link">
+               Not a member? <a href="{% url 'signup' %}">Signup now</a>
+            </div>
+            {% endif %}
+         </form>
+      </div>
+   </body>
+</html>

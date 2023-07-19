@@ -1,0 +1,51 @@
+{% extends "adminpanel/base.html" %}
+        {% block search_user %}
+          <form class="searchform" method="POST" action=" {% url 'searchusers' %}">
+            {% csrf_token %}
+            <div class="input-group">
+              <input
+                list="search_terms"
+                type="text"
+                class="form-control"
+                placeholder="{% if search_text %}{{search_text}}{% else %}search{% endif %}"
+                value="{% if search_text %}{{search_text}}{% endif %}"
+                name="query"
+              />
+              <button class="btn btn-light bg" type="submit">
+                <i class="material-icons md-search"></i>
+              </button>
+            </div>
+          </form>
+        {% endblock search_user %}
+{% block content %}
+<table class="table align-middle table-nowrap mb-0">
+    <thead class="table-light">
+      <tr>
+        <th class="align-middle" scope="col">Id</th>
+        <th class="align-middle" scope="col">username</th>
+        <th class="align-middle" scope="col">First name</th>
+        <th class="align-middle" scope="col">Last name</th>
+        <th class="align-middle" scope="col">email</th>
+        <th class="align-middle" scope="col">is_active</th>
+              
+      </tr>
+    </thead>
+    <tbody>
+    {% for usr in users %}
+      <tr>
+        <td><a href="#" class="fw-bold">{{usr.id}}</a></td>
+        <td>{{ usr.username }} </td>
+        <td>{{ usr.first_name }} </td>
+        <td>{{ usr.last_name }} </td>
+        <td>{{ usr.email }} </td>
+        <td>{{ usr.is_active }}</td>
+        <td><a href=" {% url 'useraction' usr.id %}" class="btn btn-sm btn-brand rounded p-2">{% if usr.is_active %} Block {% else %} Unblock {% endif %}</a></td>
+
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+</div>
+
+{% endblock content %}

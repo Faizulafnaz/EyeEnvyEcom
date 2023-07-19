@@ -1,0 +1,382 @@
+<!--
+	Author: W3layouts
+	Author URL: http://w3layouts.com
+	License: Creative Commons Attribution 3.0 Unported
+	License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+{% extends "homeapp/base.html" %}
+{% block css %}
+<script>
+	addEventListener("load", function () {
+		setTimeout(hideURLbar, 0);
+	}, false);
+
+	function hideURLbar() {
+		window.scrollTo(0, 1);
+	}
+</script>
+<link href="/static/css/bootstrap.css" rel='stylesheet' type='text/css' />
+<link href="/static/css/login_overlay.css" rel='stylesheet' type='text/css' />
+<link href="/static/css/style6.css" rel='stylesheet' type='text/css' />
+<link rel="stylesheet" href="/static/css/shop.css" type="text/css" />
+<link rel="stylesheet" type="text/css" href="/static/css/checkout.css">
+<link href="/static/css/easy-responsive-tabs.css" rel='stylesheet' type='text/css' />
+<link href="/static/css/style.css" rel='stylesheet' type='text/css' />
+<link href="/static/css/fontawesome-all.css" rel="stylesheet">
+<link href="//fonts.googleapis.com/css?family=Inconsolata:400,700" rel="stylesheet">
+<link href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800"
+	rel="stylesheet">
+
+{% endblock css %}
+{% block content %}
+<!-- banner -->
+<div class="banner_inner">
+	<div class="services-breadcrumb">
+		<div class="inner_breadcrumb">
+
+			<ul class="short">
+				<li>
+					<a href="index.html">Home</a>
+					<i>|</i>
+				</li>
+				<li>Cart</li>
+			</ul>
+		</div>
+	</div>
+
+</div>
+<!--//banner -->
+</div>
+<!--// header_top -->
+<!--checkout-->
+<section class="banner-bottom-wthreelayouts py-lg-5 py-3">
+<div class="container">
+	{% if not cart_items%}
+
+	<h1>Your shopping cart is empty</h1>
+	<br>
+	<br>
+	<div class="col-md-4 checkout-left-basket" >
+		<a href = "{% url 'store' %}"><h4>Continue to basket</h4></a>
+		<ul style="border: 1px solid black dashed;">
+		</div>
+	<br>
+	<br>
+
+	{% else %}
+	{% if messages%} {% for message in messages%}
+        <div
+          class="alert alert-warning alert-dismissible fade show"
+          role="alert"
+        >
+          <strong></strong>{{message}}
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+        {%endfor%} {%endif%}
+	<div class="inner-sec-shop px-lg-4 px-3">
+		<h3 class="tittle-w3layouts my-lg-4 mt-3">Cart</h3>
+		<div class="checkout-right">
+			<h4>Your shopping cart contains:
+				<span>{{count}}</span>
+			</h4>
+			<table class="timetable_sub">
+				<thead>
+					<tr>
+						<th>SL No.</th>
+						<th>Product</th>
+						<th>Quantity</th>
+						<th>Product Name</th>
+
+						<th>Price</th>
+						<th>Remove</th>
+					</tr>
+				</thead>
+				<tbody>
+				{% for cart_item in cart_items %}
+					<tr class="rem1">
+						<td class="invert">{{ cart_item.id }}</td>
+						<td class="invert-image">
+							<a href="">
+								<img src="{{ cart_item.product.images.url }}" alt=" " class="img-responsive">
+							</a>
+						</td>
+						<td class="invert">
+							<div class="quantity">
+								<div class="quantity-select" style="display: flex;">
+									<a href=" {% url 'removecart' cart_item.product.id %}" ><div class="entry value-minus">&nbsp;</div></a>
+									
+									<div class="entry value">
+										<span>{{ cart_item.quantity }}</span>
+									</div>
+									<a href=" {% url 'addcart' cart_item.product.id %}" ><div class="entry value-plus">&nbsp;</div></a>
+								</div>
+							</div>
+						</td>
+						<td class="invert">{{ cart_item.product.product_name }}</td>
+
+						<td class="invert">{{ cart_item.sub_total }}</td>
+						<td class="invert">
+							<div class="rem">
+								<a href="{% url 'deletecart' cart_item.product.id %}"><div class="close1"> </div></a>
+							</div>
+
+						</td>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		<div class="checkout-left row">
+			<div class="col-md-4 checkout-left-basket " >
+				<a href = "{% url 'store' %}"><h4>Continue to basket</h4></a>
+				<ul style="border: 1px solid black dashed;">
+					{% for cart_item in cart_items %}
+					
+					
+					<li>{{ cart_item.product.product_name }}
+						<i>-</i>
+						<span>{{ cart_item.sub_total }}</span>
+					</li>
+					{% endfor %}
+
+					<li>Total Service Charges
+						<i>-</i>
+						<span>Free Delivery <del>99</del> </span>
+					</li>
+					<li style="font-size: 1em;
+					color: #212121;
+					font-weight: 600;
+					padding: 1em 0;
+					border-top: 1px solid #DDD;
+					border-bottom: 1px solid #DDD;
+					margin: 2em 0 0;"><b>Total</b>
+						<i>-</i>
+						<span><b>{{ total }}</b></span>
+					</li>
+				</ul>
+				<div class="checkout-right-basket">
+					<a href="{% url 'checkout' %}">Buy Now</a>
+				</div>
+			</div> 
+		{% comment %} 	<div class="col-md-4  address_form">
+				
+				<h4>Add a new Details</h4>
+				<form action="payment.html" method="post" class="creditly-card-form agileinfo_form">
+					<section class="creditly-wrapper wrapper">
+						<div class="information-wrapper">
+							<div class="first-row form-group">
+								<div class="controls">
+									<label class="control-label">Full name: </label>
+									<input class="billing-address-name form-control" type="text" name="name" placeholder="Full name">
+								</div>
+								<div class="card_number_grids">
+									<div class="card_number_grid_left">
+										<div class="controls">
+											<label class="control-label">Mobile number:</label>
+											<input class="form-control" type="text" placeholder="Mobile number">
+										</div>
+									</div>
+									<div class="card_number_grid_right">
+										<div class="controls">
+											<label class="control-label">Landmark: </label>
+											<input class="form-control" type="text" placeholder="Landmark">
+										</div>
+									</div>
+									<div class="clear"> </div>
+								</div>
+								<div class="controls">
+									<label class="control-label">Town/City: </label>
+									<input class="form-control" type="text" placeholder="Town/City">
+								</div>
+								<div class="controls">
+									<label class="control-label">Address type: </label>
+									<select class="form-control option-w3ls">
+										<option>Office</option>
+										<option>Home</option>
+										<option>Commercial</option>
+
+									</select>
+								</div>
+							</div>
+							<button class="submit check_out">Delivery to this Address</button>
+						</div>
+					</section>
+				</form>
+				<div class="checkout-right-basket">
+					<a href="payment.html">Make a Payment </a>
+				</div> 
+			</div>{% endcomment %}
+
+			<div class="clearfix"> </div>
+
+		</div>
+
+	</div>
+	{% endif %}
+
+</div>
+</section>
+
+{% endblock %}
+{% block script_section %}
+<script src="/static/js/jquery-2.2.3.min.js"></script>
+<!-- newsletter modal -->
+<!--search jQuery-->
+<script src="/static/js/modernizr-2.6.2.min.js"></script>
+<script src="/static/js/classie-search.js"></script>
+<script src="/static/js/demo1-search.js"></script>
+<!--//search jQuery-->
+<!-- cart-js -->
+<script src="/static/js/minicart.js"></script>
+<script>
+	googles.render();
+
+	googles.cart.on('googles_checkout', function (evt) {
+		var items, len, i;
+
+		if (this.subtotal() > 0) {
+			items = this.items();
+
+			for (i = 0, len = items.length; i < len; i++) {}
+		}
+	});
+</script>
+<!-- //cart-js -->
+<script>
+	$(document).ready(function () {
+		$(".button-log a").click(function () {
+			$(".overlay-login").fadeToggle(200);
+			$(this).toggleClass('btn-open').toggleClass('btn-close');
+		});
+	});
+	$('.overlay-close1').on('click', function () {
+		$(".overlay-login").fadeToggle(200);
+		$(".button-log a").toggleClass('btn-open').toggleClass('btn-close');
+		open = false;
+	});
+</script>
+<!-- carousel -->
+<!-- easy-responsive-tabs -->
+<script src="/static/js/easy-responsive-tabs.js"></script>
+<script>
+	$(document).ready(function () {
+		$('#horizontalTab').easyResponsiveTabs({
+			type: 'default', //Types: default, vertical, accordion           
+			width: 'auto', //auto or any width like 600px
+			fit: true, // 100% fit in a container
+			closed: 'accordion', // Start closed if in accordion view
+			activate: function (event) { // Callback function if tab is switched
+				var $tab = $(this);
+				var $info = $('#tabInfo');
+				var $name = $('span', $info);
+				$name.text($tab.text());
+				$info.show();
+			}
+		});
+		$('#verticalTab').easyResponsiveTabs({
+			type: 'vertical',
+			width: 'auto',
+			fit: true
+		});
+	});
+</script>
+<!--quantity-->
+<script>
+	$('.value-plus').on('click', function () {
+		var divUpd = $(this).parent().find('.value'),
+			newVal = parseInt(divUpd.text(), 10) + 1;
+		divUpd.text(newVal);
+	});
+
+	$('.value-minus').on('click', function () {
+		var divUpd = $(this).parent().find('.value'),
+			newVal = parseInt(divUpd.text(), 10) - 1;
+		if (newVal >= 1) divUpd.text(newVal);
+	});
+</script>
+<!--quantity-->
+<!--close-->
+<script>
+	$(document).ready(function (c) {
+		$('.close1').on('click', function (c) {
+			$('.rem1').fadeOut('slow', function (c) {
+				$('.rem1').remove();
+			});
+		});
+	});
+</script>
+<script>
+	$(document).ready(function (c) {
+		$('.close2').on('click', function (c) {
+			$('.rem2').fadeOut('slow', function (c) {
+				$('.rem2').remove();
+			});
+		});
+	});
+</script>
+<script>
+	$(document).ready(function (c) {
+		$('.close3').on('click', function (c) {
+			$('.rem3').fadeOut('slow', function (c) {
+				$('.rem3').remove();
+			});
+		});
+	});
+</script>
+<!--//close-->
+
+<!-- dropdown nav -->
+<script>
+	$(document).ready(function () {
+		$(".dropdown").hover(
+			function () {
+				$('.dropdown-menu', this).stop(true, true).slideDown("fast");
+				$(this).toggleClass('open');
+			},
+			function () {
+				$('.dropdown-menu', this).stop(true, true).slideUp("fast");
+				$(this).toggleClass('open');
+			}
+		);
+	});
+</script>
+<!-- //dropdown nav -->
+<script src="/static/js/move-top.js"></script>
+<script src="/static/js/easing.js"></script>
+<script>
+	jQuery(document).ready(function($) {
+		$(".scroll").click(function(event) {
+			event.preventDefault();
+			$('html,body').animate({
+				scrollTop: $(this.hash).offset().top
+			}, 900);
+		});
+	});
+</script>
+<script>
+	$(document).ready(function() {
+		/*
+								var defaults = {
+									  containerID: 'toTop', // fading element id
+									containerHoverID: 'toTopHover', // fading element hover id
+									scrollSpeed: 1200,
+									easingType: 'linear' 
+								 };
+								*/
+
+		$().UItoTop({
+			easingType: 'easeOutQuart'
+		});
+
+	});
+</script>
+<!--// end-smoth-scrolling -->
+
+
+<script src="/static/js/bootstrap.js"></script>
+{% endblock %}

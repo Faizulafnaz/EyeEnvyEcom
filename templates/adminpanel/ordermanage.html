@@ -1,0 +1,54 @@
+{% extends 'adminpanel/base.html' %}
+{% block content %}
+
+            </section>
+            <div class="card mb-3">
+                <img  src="{{ cart_item.product.images.url }}" class="img-thumbnail" alt="..." width="300" height="250">
+                <div class="card-body">
+                  <h5 class="card-title">{{ cart_item.product.product_name }}</h5>
+                  <p class="card-text"><b>Order Id : </b>{{ cart_item.order.order_id }}</p>
+                  <p class="card-text"><b>Order Address : </b>{{ cart_item.order.adress.full_address }}</p>
+                  <p class="card-text"><b>Product Price : </b>{{ cart_item.product.price}}</p>
+                  <p class="card-text"><b>Quantity      : </b>{{ cart_item.quantity }}</p>
+                  <p class="card-text"><b>Total         : </b>{{ cart_item.sub_total }}</p>
+                  <p class="card-text"><b>Ordered on    : </b>{{ cart_item.created_at }}</p>
+                  <p class="card-text"><b>Status    : </b>{{ cart_item.status }}</p>
+                </div>
+                <form method="POST" action="{% url 'ordermanage' cart_item.id %}">
+                    {% csrf_token %}
+                    <h3 class="p-3">Change status of the Order</h3>
+                    <div class="col-lg-4 p-3">
+                        <label class="form-label">Status</label>
+                        <select class="form-select" name="status">
+                            <option value="{{ status }}">{{ cart_item.status }}</option>
+                        {% for status in cart_item.ORDER_STATUS %}
+                          <option value="{{ status.1 }}">{{ status.1 }}</option>
+                        {% endfor %}
+                           
+                        </select>
+                        <button class="btn btn-md rounded font-sm hover-up my-3" type="submit">
+                            Update
+                        </button>
+                      </div>
+                </form>    
+              </div>
+
+
+            </section>
+            <!-- content-main end// -->
+            <br><br>
+            <br><br>
+            <footer class="main-footer font-xs">
+                <div class="row pb-30 pt-15">
+                    <div class="col-sm-6">
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script>
+                        &copy; Nest - HTML Ecommerce Template .
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-sm-end">All rights reserved</div>
+                    </div>
+                </div>
+            </footer>
+        {% endblock %}

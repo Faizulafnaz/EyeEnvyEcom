@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!-- Created By CodingNepal -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Login Form Design | CodeLab</title>
+    <link rel="stylesheet" href="/static/css/stylelogin.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="title">Login Form</div>
+      <form action="{% url 'handlelogin' %}" method="POST">
+        {% csrf_token %} ` {% if messages%} {% for message in messages%}
+        <div
+          class="alert alert-warning alert-dismissible fade show"
+          role="alert"
+        >
+          <strong></strong>{{message}}
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+        {%endfor%} {%endif%}
+        <br />
+        <div class="field">
+          <input type="text" name="username" id="username" required />
+          <label>Username</label>
+        </div>
+        <div class="field">
+          <input type="password" name="pass1" id="pass1" required />
+          <label>Password</label>
+        </div>
+        <div class="content">
+          <div class="checkbox">
+            <input type="checkbox" id="remember-me" />
+            <label for="remember-me">Remember me</label>
+          </div>
+          <div class="pass-link">
+            <a href="{% url 'forgotpassword' %}">Forgot password?</a>
+          </div>
+        </div>
+        <br />
+        <div class="field">
+          <input type="submit" value="Login" />
+        </div>
+        <div class="signup-link">
+          Not a member? <a href="{% url 'signup' %}">Signup Now</a>
+        </div>
+        <div class="signup-link">
+          Click here for OTP login
+          <a href="{% url 'otp_login' %}">Login with OTP</a>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

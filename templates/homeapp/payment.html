@@ -1,0 +1,338 @@
+<!--
+	Author: W3layouts
+	Author URL: http://w3layouts.com
+	License: Creative Commons Attribution 3.0 Unported
+	License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+{% extends "homeapp/base.html" %}
+	{% block css %}
+
+	<link href="/static/css/bootstrap.css" rel='stylesheet' type='text/css' />
+	<link href="/static/css/login_overlay.css" rel='stylesheet' type='text/css' />
+	<link href="/static/css/style6.css" rel='stylesheet' type='text/css' />
+	<link rel="stylesheet" href="/static/css/shop.css" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="/static/css/checkout.css">
+	<link href="/static/css/easy-responsive-tabs.css" rel='stylesheet' type='text/css' />
+	<link href="/static/css/style.css" rel='stylesheet' type='text/css' />
+	<link href="/static/css/fontawesome-all.css" rel="stylesheet">
+	<link href="//fonts.googleapis.com/css?family=Inconsolata:400,700" rel="stylesheet">
+	<link href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800"
+	    rel="stylesheet">
+
+	
+	{% endblock css %}
+	{% block content %}
+
+		<!-- banner -->
+		<div class="banner_inner">
+			<div class="services-breadcrumb">
+				<div class="inner_breadcrumb">
+
+					<ul class="short">
+						<li>
+							<a href="index.html">Home</a>
+							<i>|</i>
+						</li>
+						<li>Payment </li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+		<!--//banner -->
+		<!--// header_top -->
+		<!--Payment-->
+		<section class="banner-bottom-wthreelayouts py-lg-5 py-3">
+			<div class="container">
+				<div class="inner-sec-shop px-lg-4 px-3">
+					<h3 class="tittle-w3layouts my-lg-4 mt-3">Payment </h3>
+					<!--/tabs-->
+					<div class="responsive_tabs">
+						<div id="horizontalTab">
+							<ul class="resp-tabs-list">
+								<li>Cash on delivery (COD)</li>
+								{% comment %} <li>Credit/Debit</li>
+								<li>Net Banking</li> {% endcomment %}
+								<li>Paypal Account</li>
+							</ul>
+							<div class="resp-tabs-container">
+								<!--/tab_one-->
+								<div class="tab1">
+									<div class="pay_info">
+
+
+											<h3>Billing address</h3>
+											<br>
+											<p>{{ order.address.fullname }},<p>
+											<p>{{ order.address.house_name}},{{order.address.landmark}}</P>
+											<p>{{ order.address.city}},{{order.address.district}}</P>
+											<p>{{ order.address.state}},{{order.address.country}}</P>
+											<p>ph_no:{{ order.address.contact_number}}, Pincode:{{order.address.pincode}}</P>
+												<br>
+												<br>
+												<div>
+													<a href="{% url 'payments'  %}"><button class="btn  btn-dark font-weight-bold my-3 mx-3">Confirm Order</button></a>
+												</div>
+
+										
+											
+										
+									</div>
+
+								</div>
+								
+								<div class="tab4">
+									<div class="pay_info row">
+										<div class="col-md-6 tab-grid">
+											<h3>Billing address</h3>
+											<br>
+											<p>{{ order.address.fullname }},<p>
+											<p>{{ order.address.house_name}},{{order.address.landmark}}</P>
+											<p>{{ order.address.city}},{{order.address.district}}</P>
+											<p>{{ order.address.state}},{{order.address.country}}</P>
+											<p>ph_no:{{ order.address.contact_number}}, Pincode:{{order.address.pincode}}</P>
+												<br>
+												<br>
+												
+
+											
+											
+										</div>
+										<div class="col-md-6">
+										<div class="checkout-left row">
+										<div class="col-md-10 checkout-left-basket " >
+											
+											<b><p>Important: You will be redirected to PayPal's website to securely complete your payment.</p></b>
+											<br>
+											<br>
+											<ul style="border: 1px solid black dashed;">
+												{% for cart_item in cart_items %}
+												
+												
+												<li>{{ cart_item.product.product_name }}
+													<i>-</i>
+													<span>{{ cart_item.sub_total }}</span>
+												</li>
+												{% endfor %}
+							
+												<li>Total Service Charges
+													<i>-</i>
+													<span>Free Delivery <del>99</del> </span>
+												</li>
+												<li style="font-size: 1em;
+												color: #212121;
+												font-weight: 600;
+												padding: 1em 0;
+												border-top: 1px solid #DDD;
+												border-bottom: 1px solid #DDD;
+												margin: 2em 0 0;"><b>Total</b>
+													<i>-</i>
+													<span><b>{{ total }}</b></span>
+												</li>
+											</ul>
+											<div>
+												<button id="rzp-button1">Pay with Razorpay</button>			
+											</div>
+										</div>
+									</div>
+									</div>
+										<div class="clearfix"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--//tabs-->
+				</div>
+
+			</div>
+			<!-- //payment -->
+		</section>
+		{% endblock content %}
+		<!--//Payment-->
+		{% block script_section %}
+
+		
+		<!--jQuery-->
+		<script src="/static/js/jquery-2.2.3.min.js"></script>
+		<!-- newsletter modal -->
+		<!--search jQuery-->
+		<script src="/static/js/modernizr-2.6.2.min.js"></script>
+		<script src="/static/js/classie-search.js"></script>
+		<script src="/static/js/demo1-search.js"></script>
+		<!--//search jQuery-->
+		<!-- cart-js -->
+		<script src="/static/js/minicart.js"></script>
+		<script>
+			googles.render();
+
+			googles.cart.on('googles_checkout', function (evt) {
+				var items, len, i;
+
+				if (this.subtotal() > 0) {
+					items = this.items();
+
+					for (i = 0, len = items.length; i < len; i++) {}
+				}
+			});
+		</script>
+		<!-- //cart-js -->
+		<script>
+			$(document).ready(function () {
+				$(".button-log a").click(function () {
+					$(".overlay-login").fadeToggle(200);
+					$(this).toggleClass('btn-open').toggleClass('btn-close');
+				});
+			});
+			$('.overlay-close1').on('click', function () {
+				$(".overlay-login").fadeToggle(200);
+				$(".button-log a").toggleClass('btn-open').toggleClass('btn-close');
+				open = false;
+			});
+		</script>
+		<!-- carousel -->
+		<!-- easy-responsive-tabs -->
+		<script src="/static/js/easy-responsive-tabs.js"></script>
+		<script>
+			$(document).ready(function () {
+				$('#horizontalTab').easyResponsiveTabs({
+					type: 'default', //Types: default, vertical, accordion           
+					width: 'auto', //auto or any width like 600px
+					fit: true, // 100% fit in a container
+					closed: 'accordion', // Start closed if in accordion view
+					activate: function (event) { // Callback function if tab is switched
+						var $tab = $(this);
+						var $info = $('#tabInfo');
+						var $name = $('span', $info);
+						$name.text($tab.text());
+						$info.show();
+					}
+				});
+				$('#verticalTab').easyResponsiveTabs({
+					type: 'vertical',
+					width: 'auto',
+					fit: true
+				});
+			});
+		</script>
+
+		<!-- credit-card -->
+		<script type="text/javascript" src="/static/js/creditly.js"></script>
+		<link rel="stylesheet" href="/static/css/creditly.css" type="text/css" media="all" />
+
+		<script type="text/javascript">
+			$(function () {
+				var creditly = Creditly.initialize(
+					'.creditly-wrapper .expiration-month-and-year',
+					'.creditly-wrapper .credit-card-number',
+					'.creditly-wrapper .security-code',
+					'.creditly-wrapper .card-type');
+
+				$(".creditly-card-form .submit").click(function (e) {
+					e.preventDefault();
+					var output = creditly.validate();
+					if (output) {
+						// Your validated credit card output
+						console.log(output);
+					}
+				});
+			});
+		</script>
+		<!-- //credit-card -->
+		<!-- dropdown nav -->
+		<script>
+			$(document).ready(function () {
+				$(".dropdown").hover(
+					function () {
+						$('.dropdown-menu', this).stop(true, true).slideDown("fast");
+						$(this).toggleClass('open');
+					},
+					function () {
+						$('.dropdown-menu', this).stop(true, true).slideUp("fast");
+						$(this).toggleClass('open');
+					}
+				);
+			});
+		</script>
+		<!-- //dropdown nav -->
+		<script src="/static/js/move-top.js"></script>
+    <script src="/static/js/easing.js"></script>
+    <script>
+        jQuery(document).ready(function($) {
+            $(".scroll").click(function(event) {
+                event.preventDefault();
+                $('html,body').animate({
+                    scrollTop: $(this.hash).offset().top
+                }, 900);
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            /*
+            						var defaults = {
+            							  containerID: 'toTop', // fading element id
+            							containerHoverID: 'toTopHover', // fading element hover id
+            							scrollSpeed: 1200,
+            							easingType: 'linear' 
+            						 };
+            						*/
+
+            $().UItoTop({
+                easingType: 'easeOutQuart'
+            });
+
+        });
+    </script>
+    <!--// end-smoth-scrolling -->
+
+
+		<!-- //smooth-scrolling-of-move-up -->
+		<script src="/static/js/bootstrap.js"></script>
+		<!-- js file -->
+
+		
+		<!-- Razorpay  -->
+
+		<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+		<script>
+			var options = {
+				"key": "rzp_test_syOLTFEUoECCp5", // Enter the Key ID generated from the Dashboard
+				"amount": "{{ payment.amount }}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+				"currency": "INR",
+				"name": "EyeEnvy",
+				"redirect": true,
+				"callback_url": "http://127.0.0.1:8000/order/presuccess/",
+				"description": "Purchase",
+				"image": "https://example.com/your_logo",
+				"order_id": "{{ payment.id }}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+				"handler": function (response){
+					alert(response.razorpay_payment_id);
+					alert(response.razorpay_order_id);
+					alert(response.razorpay_signature)
+				},
+				"theme": {
+					"color": "#3399cc"
+				}
+			};
+			var rzp1 = new Razorpay(options);
+			rzp1.on('payment.failed', function (response){
+					alert(response.error.code);
+					alert(response.error.description);
+					alert(response.error.source);
+					alert(response.error.step);
+					alert(response.error.reason);
+					alert(response.error.metadata.order_id);
+					alert(response.error.metadata.payment_id);
+			});
+			document.getElementById('rzp-button1').onclick = function(e){
+				rzp1.open();
+				e.preventDefault();
+			}
+			</script>
+
+
+		{% endblock script_section %}
+</body>
+
+</html>
