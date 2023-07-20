@@ -118,8 +118,13 @@
 							</div>
 						</td>
 						<td class="invert">{{ cart_item.product.product_name }}</td>
-
+						{% if cart_item.product.offer %}
+						<td class="invert">{{ cart_item.sub_total_with_offer }}</td>
+						{%elif cart_item.product.category.offer %}
+						<td class="invert">{{ cart_item.sub_total_with_offer_category }}</td>
+						{%else%}
 						<td class="invert">{{ cart_item.sub_total }}</td>
+						{%endif%}
 						<td class="invert">
 							<div class="rem">
 								<a href="{% url 'deletecart' cart_item.product.id %}"><div class="close1"> </div></a>
@@ -168,9 +173,15 @@
 					{% for cart_item in cart_items %}
 					
 					
-					<li>{{ cart_item.product.product_name }}
+					<li>{{ cart_item.product.product_name }}	
 						<i>-</i>
+						{% if cart_item.product.offer %}
+						<span style="color: black;"><del>{{ cart_item.sub_total }}</del> {{ cart_item.sub_total_with_offer }}</span>
+						{% elif cart_item.product.category.offer %}
+						<span style="color: black;"><del>{{ cart_item.sub_total }}</del> {{ cart_item.sub_total_with_offer_category }}</span>
+						{% else %}
 						<span style="color: black;">{{ cart_item.sub_total }}</span>
+						{% endif %}
 					</li>
 					{% endfor %}
 					{% if cart.coupon %}

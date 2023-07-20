@@ -80,10 +80,25 @@
             </div>
             <div class="col-lg-8 single-right-left simpleCart_shelfItem">
               <h3>{{ single_product.product_name }}</h3>
+              {% if single_product.offer %}
+              <p>
+                <span class="item_price"> <del>&#8377;{{ single_product.price }}</del> &#8377;{{single_product.get_offer_price}} </span>
+                <del></del>
+                <span>({{single_product.offer.off_percent}}% off)</span>
+              </p>
+              {% elif single_product.category.offer %}
+              <p>
+                <span class="item_price "> <del>&#8377;{{ single_product.price }}</del> &#8377;{{single_product.get_offer_price_by_category }} </span>
+                <del></del>
+                <span>({{single_product.category.offer.off_percent}}% off)</span>
+
+              </p>
+              {% else %}
               <p>
                 <span class="item_price">&#8377;{{single_product.price}}</span>
                 <del></del>
               </p>
+              {% endif %}
               <div class="rating1">
                 <ul class="stars">
                   <li>

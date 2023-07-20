@@ -26,6 +26,7 @@ def add_cart(request, product_id):
         cart = Cart.objects.create(
             session_id = _session_id(request)
         )
+    cart.coupon = None
     cart.save()
 
     try:
@@ -56,6 +57,7 @@ def add_cart(request, product_id):
             cart_item.save()
     return redirect('cart')
 
+# for reducing cart item quantity
 def remove_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     if request.user.is_authenticated:
@@ -71,6 +73,7 @@ def remove_cart(request, product_id):
     return redirect('cart')
 
 
+#for removing cart item 
 def delete_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     if request.user.is_authenticated:
@@ -95,7 +98,13 @@ def cart(request, total=0, quantity=0, cart_items=None,count=0,coupons=None, car
             cart_items = CartItem.objects.filter(cart=cart, is_active=True)
             
         for cart_item in cart_items:
-            total += cart_item.sub_total()
+            if cart_item.product.offer:
+                total += cart_item.sub_total_with_offer()
+            elif cart_item.product.category.offer:
+                total += cart_item.sub_total_with_offer_category()
+            else:
+                total += cart_item.sub_total()
+
             quantity += cart_item.quantity
             count += 1
     except:
@@ -114,9 +123,10 @@ def cart(request, total=0, quantity=0, cart_items=None,count=0,coupons=None, car
                 messages.error(request, f'Amount should be greater than {coupon.min_amount}')
                 return redirect('cart')
             
+            cart = Cart.objects.get(session_id = _session_id(request))
+
             discount_amount = total * coupon.off_percent / 100
 
-            cart = Cart.objects.get(session_id = _session_id(request))
             if discount_amount > coupon.max_discount:
                 discount_amount = coupon.max_discount
 

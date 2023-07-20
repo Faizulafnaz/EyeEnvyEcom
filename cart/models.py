@@ -30,6 +30,12 @@ class CartItem(models.Model):
 
     def sub_total(self):
         return self.product.price * self.quantity
+    
+    def sub_total_with_offer(self):
+        return int((self.sub_total()) - ( self.sub_total() * self.product.offer.off_percent / 100))
+    
+    def sub_total_with_offer_category(self):
+        return int((self.sub_total()) - ( self.sub_total() * self.product.category.offer.off_percent / 100))
 
     def __str__(self):
         return self.product.product_name    

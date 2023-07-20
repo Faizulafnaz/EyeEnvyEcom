@@ -114,6 +114,11 @@
 													<span>{{ cart_item.sub_total }}</span>
 												</li>
 												{% endfor %}
+												{% if discount_amount %}
+												<li>Coupon discount
+													<i>-</i>
+													<span>{{ discount_amount }}</span>
+												</li>{%endif%}
 							
 												<li>Total Service Charges
 													<i>-</i>

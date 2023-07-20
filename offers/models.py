@@ -23,3 +23,12 @@ class Coupon(models.Model):
     
     def is_expired(self):
         return self.expiry_date > date.today()
+
+class Offer(models.Model):
+    name = models.CharField(max_length=50)
+    off_percent = models.PositiveIntegerField()
+    start_date = models.DateField(validators=[validate_expiry_date])
+    end_date = models.DateField()
+
+    def __str__(self) -> str:
+        return self.name

@@ -8,6 +8,7 @@ from django.core.mail import send_mail
 import razorpay
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
+from cart.views import _session_id
 
 
 
@@ -60,7 +61,11 @@ def payments(request, total = 0):
         fail_silently=False
         )
         # Removing Cart items
-        CartItem.objects.filter(user=request.user).delete()   
+        CartItem.objects.filter(user=request.user).delete()
+        cart = Cart.objects.get(session_id=_session_id(request))
+        cart.coupon = None
+        cart.save()
+   
 
         return render(request, "homeapp/confirm.html")
 
@@ -68,6 +73,7 @@ def payments(request, total = 0):
 
 
 def place_order(request):
+
     if request.user.is_authenticated:
         current_user = request.user
         total = 0
@@ -77,7 +83,20 @@ def place_order(request):
             if cart_item.quantity > cart_item.product.stock:
                 print("cart item out of stock")
                 return redirect('cart')
-            total += ((cart_item.product.price) * (cart_item.quantity))
+            if cart_item.product.offer:
+                total += cart_item.sub_total_with_offer()
+            elif cart_item.product.category.offer:
+                total += cart_item.sub_total_with_offer_category()
+            else:
+                total += cart_item.sub_total()
+        cart = Cart.objects.get(session_id=_session_id(request))
+        if cart.coupon:
+            discount_amount = total * cart.coupon.off_percent / 100
+
+            if discount_amount > cart.coupon.max_discount:
+                discount_amount = cart.coupon.max_discount
+
+            total -= discount_amount
         if cart_count <= 0:
             return redirect('store')
 
@@ -104,6 +123,7 @@ def place_order(request):
             'cart_items' : cart_items,
             'total' : total,
             'payment' : payment,
+            'discount_amount': discount_amount,
         }
         return render(request,'homeapp/payment.html', context)
     

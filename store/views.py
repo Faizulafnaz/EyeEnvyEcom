@@ -1,11 +1,17 @@
 from django.shortcuts import render
 from .models import Product
+from offers.models import Offer
+from category.models import Category
 
 # Create your views here.
 
 
 def store(request):
     products = Product.objects.all().filter(is_available = True)
+    try:
+        pass
+    except:
+        pass
     context = {
         'products' : products,
         
