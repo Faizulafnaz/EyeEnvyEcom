@@ -8,6 +8,7 @@ from category.models import Category
 
 #product section-------------------------------
 
+#for showing products on the admin side
 def products(request):
     products = Product.objects.all().filter(is_available = True)
     context = {
@@ -16,6 +17,7 @@ def products(request):
     }
     return render(request, 'adminpanel/page-products-grid-2.html', context)
 
+#for adding a new product
 def add_product(request):
 
     if request.method == 'POST':
@@ -79,6 +81,8 @@ def add_product(request):
     }
     return render(request, 'adminpanel/page-form-product-1.html', context)
 
+
+#for editing the details of existing product
 def edit_product(request, id):
 
     if request.method == "POST":

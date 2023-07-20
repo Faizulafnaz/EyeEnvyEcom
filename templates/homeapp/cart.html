@@ -131,7 +131,37 @@
 				</tbody>
 			</table>
 		</div>
+
+		
 		<div class="checkout-left row">
+			
+			<div class="search-hotel col-md-4 p-4" style="border: 1px dashed black;">
+				<h3 class="agileits-sear-head">Apply coupon..</h3>
+				<form action="{% url 'cart' %}" method="post">
+					{% csrf_token %}
+						<input class="form-control" type="search" name="search" placeholder="Enter coupon code..." required="">
+						<button class="btn1">
+								<i class="fas fa-apply"></i>
+						</button>
+						<div class="clearfix"> </div>
+					</form>
+					<br>
+					<h3 class="agileits-sear-head">Available coupons..</h3>
+					{% if cart.coupon %}
+					<li style="color: green;">{{ cart.coupon.coupon_code }} applied.
+						
+					</li>
+					<br>
+					{% endif %}
+				{% if coupons%}
+				<ul>
+				{% for coupon in coupons %}
+				<li>{{coupon.coupon_code}}<p>save {{coupon.off_percent}}% of your cart total</p></li>
+				{%endfor%}
+				</ul>
+				{%endif%}
+			</div>
+
 			<div class="col-md-4 checkout-left-basket " >
 				<a href = "{% url 'store' %}"><h4>Continue to basket</h4></a>
 				<ul style="border: 1px solid black dashed;">
@@ -140,10 +170,15 @@
 					
 					<li>{{ cart_item.product.product_name }}
 						<i>-</i>
-						<span>{{ cart_item.sub_total }}</span>
+						<span style="color: black;">{{ cart_item.sub_total }}</span>
 					</li>
 					{% endfor %}
-
+					{% if cart.coupon %}
+					<li>Coupon discount
+						<i>-</i>
+						<span style="color: red;"> - {{ discount_amount }}</span>
+					</li>
+					{% endif %}
 					<li>Total Service Charges
 						<i>-</i>
 						<span>Free Delivery <del>99</del> </span>
@@ -163,54 +198,6 @@
 					<a href="{% url 'checkout' %}">Buy Now</a>
 				</div>
 			</div> 
-		{% comment %} 	<div class="col-md-4  address_form">
-				
-				<h4>Add a new Details</h4>
-				<form action="payment.html" method="post" class="creditly-card-form agileinfo_form">
-					<section class="creditly-wrapper wrapper">
-						<div class="information-wrapper">
-							<div class="first-row form-group">
-								<div class="controls">
-									<label class="control-label">Full name: </label>
-									<input class="billing-address-name form-control" type="text" name="name" placeholder="Full name">
-								</div>
-								<div class="card_number_grids">
-									<div class="card_number_grid_left">
-										<div class="controls">
-											<label class="control-label">Mobile number:</label>
-											<input class="form-control" type="text" placeholder="Mobile number">
-										</div>
-									</div>
-									<div class="card_number_grid_right">
-										<div class="controls">
-											<label class="control-label">Landmark: </label>
-											<input class="form-control" type="text" placeholder="Landmark">
-										</div>
-									</div>
-									<div class="clear"> </div>
-								</div>
-								<div class="controls">
-									<label class="control-label">Town/City: </label>
-									<input class="form-control" type="text" placeholder="Town/City">
-								</div>
-								<div class="controls">
-									<label class="control-label">Address type: </label>
-									<select class="form-control option-w3ls">
-										<option>Office</option>
-										<option>Home</option>
-										<option>Commercial</option>
-
-									</select>
-								</div>
-							</div>
-							<button class="submit check_out">Delivery to this Address</button>
-						</div>
-					</section>
-				</form>
-				<div class="checkout-right-basket">
-					<a href="payment.html">Make a Payment </a>
-				</div> 
-			</div>{% endcomment %}
 
 			<div class="clearfix"> </div>
 

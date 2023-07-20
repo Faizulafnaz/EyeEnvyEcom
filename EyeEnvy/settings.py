@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'order',
     'admin_order',
     'image_cropping',
+    'offers',
 ]
 
 MIDDLEWARE = [
