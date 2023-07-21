@@ -46,7 +46,7 @@
       </div>
       <nav>
         <ul class="menu-aside">
-          <li class="menu-item active">
+          <li class="menu-item">
             <a class="menu-link" href="{% url 'admin_dashboard' %}">
               <i class="icon material-icons md-home"></i>
               <span class="text">Dashboard</span>
@@ -61,6 +61,17 @@
               <a href="{% url 'products' %}">Products</a>
               <a href="{% url 'addcategory' %}">Categories</a>
               <a href="{% url 'addbrand' %}">Brands</a>
+            </div>
+          </li>
+          <li class="menu-item has-submenu">
+            <a class="menu-link" href="page-products-list.html">
+              <i class="icon material-icons md-shopping_bag"></i>
+              <span class="text">Offers</span>
+            </a>
+            <div class="submenu">
+              <a href="{% url 'addoffer' %}">Offer</a>
+              <a href="{% url 'addcoupon' %}">Coupon</a>
+              
             </div>
           </li>
           <li class="menu-item has-submenu">

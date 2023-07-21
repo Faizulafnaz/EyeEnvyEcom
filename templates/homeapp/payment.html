@@ -111,13 +111,20 @@
 												
 												<li>{{ cart_item.product.product_name }}
 													<i>-</i>
-													<span>{{ cart_item.sub_total }}</span>
+													
+													{% if cart_item.product.offer %}
+													<span style="color: black;"><del>{{ cart_item.sub_total }}</del> &#8377; {{ cart_item.sub_total_with_offer }}</span>
+													{% elif cart_item.product.category.offer %}
+													<span style="color: black;"><del>{{ cart_item.sub_total }}</del> &#8377; {{ cart_item.sub_total_with_offer_category }}</span>
+													{% else %}
+													<span style="color: black;">&#8377; {{ cart_item.sub_total }}</span>
+													{% endif %}
 												</li>
 												{% endfor %}
 												{% if discount_amount %}
 												<li>Coupon discount
 													<i>-</i>
-													<span>{{ discount_amount }}</span>
+													<span style="color: red;">- &#8377;{{ discount_amount }}</span>
 												</li>{%endif%}
 							
 												<li>Total Service Charges
@@ -132,7 +139,7 @@
 												border-bottom: 1px solid #DDD;
 												margin: 2em 0 0;"><b>Total</b>
 													<i>-</i>
-													<span><b>{{ total }}</b></span>
+													<span><b>&#8377;{{ total }}</b></span>
 												</li>
 											</ul>
 											<div>

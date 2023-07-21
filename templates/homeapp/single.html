@@ -190,11 +190,23 @@
                       Out of Stock
                     </button>
                     {% else %}
-                    <a href="{% url 'addcart' single_product.id %}">
+                    <a href="{% url 'add_wishlist' single_product.id %}">
                     <button type="submit" class="googles-cart pgoogles-cart">
                       Add to Cart
                     </button></a>
                     {% endif %}
+                    <br>
+                    {% if is_wish%}
+                    <a>
+                      <button type="submit" class="googles-cart pgoogles-cart" style="background:red;">
+                        wishlisted
+                      </button></a>
+                    {% else %}
+                    <a href="{% url 'add_wishlist' single_product.id %}">
+                      <button type="submit" class="googles-cart pgoogles-cart" style="background:red;">
+                        Add to wishlist
+                      </button></a>
+                      {% endif %}
       
                 </div>
               

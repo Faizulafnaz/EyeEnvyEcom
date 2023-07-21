@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from store.models import Product, ProductImage
 from category.models import *
+from offers.models import Offer
 from django.contrib import messages
 from category.models import Category
 
@@ -33,6 +34,7 @@ def add_product(request):
         slug = request.POST['slug']
         brand = request.POST['brand']
         category = request.POST['category']
+        offer = request.POST['offer']
         description = request.POST['desc']
         price = request.POST['price']
         stock = request.POST['stock']
@@ -50,6 +52,11 @@ def add_product(request):
                         pass    
                 brand_instance = Brand.objects.get(id=brand)
                 category_instance = Category.objects.get(id=category)
+                offer_instance = None
+                if offer:
+                    offer_instance = Offer.objects.get(id=offer)
+
+
 
                 Product.objects.create(
                     product_name=name,
@@ -59,7 +66,9 @@ def add_product(request):
                     price=price,
                     stock=stock,
                     images=image,
-                    slug=slug
+                    slug=slug,
+                    offer=offer_instance,
+
                 ).save()
                 product = Product.objects.get(product_name = name)
                 for image in images:
@@ -74,10 +83,12 @@ def add_product(request):
 
     brands = Brand.objects.all()
     categories = Category.objects.all()
+    offers = Offer.objects.all()
 
     context = {
         'categories' : categories,
         'brands' : brands,
+        'offers' : offers,
     }
     return render(request, 'adminpanel/page-form-product-1.html', context)
 
@@ -104,10 +115,15 @@ def edit_product(request, id):
         category = request.POST['category']
         price = request.POST['price']
         stock = request.POST['stock']
+        offer = request.POST['offer']
 
         if name == '':
             messages.error(request,"Product name can't be null")
             return redirect(edit_product)
+        
+        offer_instance = None
+        if offer:
+            offer_instance = Offer.objects.get(id=offer)
 
         
         brand_instance = Brand.objects.get(id=brand)
@@ -121,6 +137,7 @@ def edit_product(request, id):
             slug=slug,
             stock=stock,
             price=price,
+            offer=offer_instance,
             
             
         )
@@ -130,6 +147,7 @@ def edit_product(request, id):
         messages.success(request,f'{name} updated successfully')
         return redirect(products)
     
+    offers = Offer.objects.all()
     product = Product.objects.get(id=id)
     brands = Brand.objects.all()
     categories = Category.objects.all()
@@ -138,6 +156,7 @@ def edit_product(request, id):
         "product": product,
         'categories' : categories,
         'brands' : brands,
+        'offers' : offers,
     }
 
     return render(request, "adminpanel/product-update.html", context)

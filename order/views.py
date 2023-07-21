@@ -77,6 +77,7 @@ def place_order(request):
     if request.user.is_authenticated:
         current_user = request.user
         total = 0
+        discount_amount = None
         cart_items = CartItem.objects.filter(user=current_user)
         cart_count = cart_items.count()
         for cart_item in cart_items:

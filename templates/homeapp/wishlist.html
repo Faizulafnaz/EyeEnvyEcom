@@ -1,0 +1,113 @@
+{% extends "homeapp/base.html" %}
+	{% block content %}	
+
+
+        
+        <section class="banner-bottom-wthreelayouts py-lg-5 py-3">
+            <div class="container-fluid">
+                <div class="inner-sec-shop px-lg-4 px-3">
+                    
+                    <div class="row">
+                        <!-- /womens -->
+                        
+                        {% if wishlisted %}
+                        {% for item in wishlisted %}	
+                        
+                        <div class="col-md-3 product-men women_two">
+                            <div class="product-googles-info googles">
+                                <div class="men-pro-item">
+                                    <div class="men-thumb-item">
+                                        <img src=" {{ item.product.images.url }} " class="img-fluid" alt="">
+                                        <div class="men-cart-pro">
+                                            <div class="inner-men-cart-pro">
+                                                <a href="{{ item.product.get_url }}" class="link-product-add-cart">Quick View</a>
+                                            </div>
+                                        </div>
+                                        <span class="product-new-top">New</span>
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <div class="item-info-product">
+                                        {% if product.offer %}
+                                        <div class="info-product-price">
+                                            <div class="grid_meta">
+                                                <div class="product_price">
+                                                    <h4>
+                                                        <a href="{{ item.product.get_url }}"> {{ item.product.brand.brand_name }} </a>
+                                                    </h4>
+                                                    <div class="grid-price mt-2">
+                                                        <span class="money "> <del>&#8377;{{ item.product.price }}</del> &#8377;{{ item.product.get_offer_price}} </span>
+                                                    </div>
+                                                    <span style="color:red;">({{item.product.offer.off_percent}}% off)</span>
+                                                </div>
+    
+                                            </div>
+                                        </div>
+                                        {% elif item.product.category.offer %}
+                                        <div class="info-product-price">
+                                            <div class="grid_meta">
+                                                <div class="product_price">
+                                                    <h4>
+                                                        <a href="{{ product.get_url }}"> {{ item.product.brand.brand_name }} </a>
+                                                    </h4>
+                                                    <div class="grid-price mt-2">
+                                                        <span class="money "> <del>&#8377;{{ item.product.price }}</del> &#8377;{{item.product.get_offer_price_by_category }} </span>
+                                                    </div>
+                                                    <span style="color:red;">({{item.product.category.offer.off_percent}}% off)</span>
+                                                </div>
+                                            
+                                            </div>
+                                        </div>
+                                        {% else %}
+                                        <div class="info-product-price">
+                                            <div class="grid_meta">
+                                                <div class="product_price">
+                                                    <h4>
+                                                        <a href="{{ product.get_url }}"> {{ item.product.brand.brand_name }} </a>
+                                                    </h4>
+                                                    <div class="grid-price mt-2">
+                                                        <span class="money ">{{item.product.price}}</span>
+                                                    </div>
+                                                    <br>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        <div class="googles single-item hvr-outline-out">
+                                                            
+                                            <button  class="googles-cart pgoogles-cart">
+                                                <a href="{% url 'addcart' item.product.id %}"><i class="fas fa-cart-plus"></i></a>
+                                            </button>
+
+                                            
+                                        
+    
+                                    </div>
+                                    <div>
+                                        <a href="{% url 'delete_wishlist' item.product.id %}">
+                                            <button class="googles-cart pgoogles-cart" style="background:black; font-size: small; color:white">
+                                              Remove
+                                            </button>
+                                        </a>
+                                    </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <h3 class="tittle-w3layouts my-lg-4 my-4 p-5" style="font-family: ui-serif;">Your wishlist is empty! </h3>
+                        
+                    
+                        {% endif %}
+    
+                    </div>
+                    <!--//row-->
+                    
+                </div>
+            </div>
+        </section>
+
+    {% endblock %}

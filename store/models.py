@@ -5,6 +5,8 @@ from offers.models import Coupon, Offer
 
 
 
+
+
 # Create your models here.
 class Product(models.Model):
     product_name = models.CharField(max_length=100, unique = True)
@@ -44,4 +46,8 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return self.product.product_name + 'Image'
+
+
+
+
 

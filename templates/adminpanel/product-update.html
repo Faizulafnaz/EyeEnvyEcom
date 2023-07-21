@@ -92,6 +92,16 @@
                       
                     </select>
                   </div>
+                  <div class="col-sm-6 mb-3">
+                    <label class="form-label">Offer</label>
+                    <select class="form-select" name="offer">
+                      <option {% if product.offer %}value="{{ product.offer.id }}"{% else %} value=""{%endif%}>{% if product.offer %}{{ product.offer.name }}{% else %}-----{%endif%}</option>
+                      {% for offer in offers %}
+                      <option value="{{ offer.id }}">{{ offer.name }}</option>
+                      {% endfor %}
+                      
+                    </select>
+                  </div>
                   <div class="mb-4">
                     <label class="form-label">Change Image</label>
                     <input class="form-control" type="file" name="image" accept="image/*">
