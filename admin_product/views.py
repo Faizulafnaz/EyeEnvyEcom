@@ -188,6 +188,7 @@ def add_category(request):
         name = request.POST['name']
         slug = request.POST['slug']
         description = request.POST['desc']
+        offer = request.POST['offer']
         check = [name,slug]
         is_available = request.POST.get('is_available', False)        
         if is_available:
@@ -200,21 +201,26 @@ def add_category(request):
                 return redirect(add_category)
             else:
                 pass
+        offer_instance = None
+        if offer:
+            offer_instance = Offer.objects.get(id=offer)
         try:
             Category.objects.get(category_name = name)
         except:
-            Category.objects.create(category_name=name,cat_image=image,category_decs=description,slug=slug).save()
+            Category.objects.create(category_name=name,cat_image=image,category_decs=description,slug=slug,offfer=offer_instance).save()
             messages.success(request,f'Category "{name}" succesfully added')
         else:
             messages.error(request,f'Category "{name}" already exist')
             return redirect(add_category)
     if not request.user.is_authenticated and not request.user.is_superuser:
         return redirect('admin_dashboard')
-        
+    
+    offers = Offer.objects.all()
     categories = Category.objects.all()
     context = {
 
         'categories': categories,
+        'offers': offers,
     }
 
     return render(request, 'adminpanel/page-categories.html', context)
@@ -225,18 +231,26 @@ def edit_category(request, id):
         name = request.POST['name']
         slug = request.POST['slug']
         description = request.POST['desc']
+        offer = request.POST['offer']
+
+        offer_instance = None
+        if offer:
+            offer_instance = Offer.objects.get(id=offer)
 
         category = Category.objects.filter(id=id).update(
             category_name=name,
             slug=slug,
             category_decs=description,
+            offer=offer_instance,
         )
         messages.success(request,f'{name} updated successfully')
         return redirect(add_category)
 
     category = Category.objects.get(id=id)
+    offers = Offer.objects.all()
     context = {
         'category' : category,
+        'offers':offers,
     }
     return render(request, "adminpanel/update-category.html", context)
 

@@ -59,6 +59,15 @@
                       name = "desc"
                     ></textarea>
                   </div>
+                  <div class="col-sm-6 mb-3">
+                    <label class="form-label">Offer</label>
+                    <select class="form-select" name="offer">
+                      <option {% if category.offer %}value="{{ category.offer.id }}"{% else %} value=""{%endif%}>{% if category.offer %}{{ category.offer.name }}{% else %}-----{%endif%}</option>
+                      {% for offer in offers %}
+                      <option value="{{ offer.id }}">{{ offer.name }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
                   <div class="d-grid">
                     <button class="btn btn-primary" type="submit">Update category</button>
                   </div>
@@ -80,7 +89,7 @@
                         </th>
                         <th>Name</th>
                         <th>Slug</th>
-                        <th class="text-end">Action</th>
+                        
                       </tr>
                     </thead>
                     <tbody>
@@ -99,25 +108,7 @@
                         </td>
                         <td><b>{{ category.category_name }}</b></td>
                         <td>{{ category.slug }}</td>
-                        <td class="text-end">
-                          <div class="dropdown">    
-                            <a
-                              href="#"
-                              data-bs-toggle="dropdown"
-                              class="btn btn-light rounded btn-sm font-sm"
-                            >
-                              <i class="material-icons md-more_horiz"></i>
-                            </a>
-                            <div class="dropdown-menu">
-                              <a class="dropdown-item" href="#">View detail</a>
-                              <a class="dropdown-item" href="#">Edit info</a>
-                              <a class="dropdown-item text-danger" href="#"
-                                >Delete</a
-                              >
-                            </div>
-                          </div>
-                          <!-- dropdown //end -->
-                        </td>
+                        
                       </tr>
 
                     </tbody>

@@ -64,6 +64,16 @@
                     <input class="form-check-input" type="checkbox" value="" name="isavailable" checked/>
                     <span class="form-check-label"> Is available </span>
                   </label>
+                  <div class="col-sm-6 mb-3">
+                    <label class="form-label">Offer</label>
+                    <select class="form-select" name="offer">
+                      <option value="">-----</option>
+                      {% for offer in offers %}
+                      <option value="{{ offer.id }}">{{ offer.name }}</option>
+                      {% endfor %}
+                      
+                    </select>
+                  </div>
                   <div class="d-grid">
                     <button class="btn btn-primary" type="submit">Create category</button>
                   </div>
