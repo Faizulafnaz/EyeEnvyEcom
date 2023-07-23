@@ -9,3 +9,4 @@ def index(request):
     }
     return render(request, 'homeapp/index.html', context)
 
+

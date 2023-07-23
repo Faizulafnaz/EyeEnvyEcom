@@ -12,7 +12,7 @@
 {% endfor %}
 
 
-<div class="pagetitle p-3">
+<div class="pagetitle p-3 d-print-none">
   <h1>Sales</h1>
 </div><!-- End Page Title -->
 
@@ -33,7 +33,7 @@
             <div class="card-body">
               <div>
 
-                <div class="container">
+                <div class="container d-print-none">
                   <form method="post" action="{% url 'sales' %}">
                     {% csrf_token %}
                     <div class="row justify-content-center">
@@ -48,6 +48,11 @@
                       <div class="col-md-12 d-flex justify-content-center p-3">
                         <button class="btn btn-danger btn-block" type="submit">Generate Report</button>
                       </div>
+                      {% if sales %}
+                      <div class="col-md-12 d-flex justify-content-center p-3">
+                      <a href="javascript:window.print()" class="btn btn-success me-1">Download</i></a>
+                    </div>
+                      {% endif%}
                     </div>
                   </form>
                 </div>
@@ -67,7 +72,7 @@
                   <tbody>
                       {% for sale in sales  %}
                       <tr>
-                          <td>{{sale.order.order_id}}</td>
+                          <td>{{sale.order.id}}</td>
                           <td>{{sale.user.username}}</td>
                           <td>{{sale.product}}</td>
                           <td>{{sale.quantity}}</td>
@@ -81,7 +86,7 @@
               </table>
               {% endif %}
 
-
+              
                 <script>
                   const startDate = document.getElementById("start-date");
                   const endDate = document.getElementById("end-date");
@@ -104,7 +109,6 @@
 
       </div>
     </div><!-- End Left side columns -->
-
     <script>
 
       setTimeout(function(){

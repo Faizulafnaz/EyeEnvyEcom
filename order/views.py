@@ -31,18 +31,26 @@ def payments(request, total = 0):
         # move cart items to ordered items
         cart_items = CartItem.objects.filter(user=request.user)
         for cart_item in cart_items:
+            product_price = 0
+            if cart_item.product.offer:
+                product_price = cart_item.product.get_offer_price()
+            elif cart_item.product.category.offer:
+                product_price = cart_item.product.get_offer_price_by_category()
+            else:
+                product_price = cart_item.product.price
+
             orderitem = OrderItem(
                 user = request.user,
                 order = order,
                 product = cart_item.product,
                 payment = payment,
-                product_price = cart_item.product.price,
+                product_price = product_price,
                 quantity = cart_item.quantity,
                 status = 'accepted',
             )
             orderitem.save()
 
-            total += cart_item.sub_total()
+            total += orderitem.sub_total()
 
 
     
@@ -65,9 +73,22 @@ def payments(request, total = 0):
         cart = Cart.objects.get(session_id=_session_id(request))
         cart.coupon = None
         cart.save()
+
+        orderitems = OrderItem.objects.filter(user=request.user, order=order)
+        if order.coupon_discount:
+            pretotal=total
+            total -= order.coupon_discount
+
+        context = {
+            'order' : order,
+            'orderitems' : orderitems,
+            'total' : total,
+            'pretotal':pretotal,
+            
+        }
    
 
-        return render(request, "homeapp/confirm.html")
+        return render(request, "homeapp/invoice.html", context)
 
     return render(request, 'homeapp/payment.html') 
 
@@ -111,6 +132,7 @@ def place_order(request):
         data.user = current_user
         data.address = address
         data.order_total = total
+        data.coupon_discount = discount_amount
         data.save()
         order = Order.objects.get(user = current_user, status=data.status, order_id=data.order_id)
         

@@ -41,14 +41,17 @@ def add_user_address(request):
 
 def profile(request):
      if request.user.is_authenticated:
+          user_address = None
           try:
               user_profile = UserProfile.objects.get(user=request.user)
+              user_address = UserAddress.objects.filter(user=request.user)
           except:
               user_profile=UserProfile.objects.create(
                   user = request.user
               ).save()
           context = {
               'user_profile':user_profile,
+              'addresses' : user_address,
           }
           return render(request, 'homeapp/profile.html', context)
 
@@ -117,3 +120,35 @@ def change_password(request):
             return redirect(change_password)
         
     return render(request, 'homeapp/changepassword.html')
+
+
+def edit_address(request, id):
+    if request.method == "POST":
+       name = request.POST['fname']
+       ph_no = request.POST['no']
+       house = request.POST['house']
+       landmark = request.POST['landmark']
+       district = request.POST['district']
+       city = request.POST['city']
+       state = request.POST['state']
+       country = request.POST['country']
+
+
+       UserAddress.objects.filter(id=id).update(
+            fullname = name,
+            contact_number = ph_no,
+            house_name = house,
+            landmark = landmark,
+            district = district,
+            city = city,
+            state = state,
+            country = country,
+
+       )
+       messages.success(request, 'saved changes')
+       return redirect(edit_address, id)
+    address = UserAddress.objects.get(id=id)
+    context = {
+        'address' : address,
+    }
+    return render(request, "homeapp/address.html", context)

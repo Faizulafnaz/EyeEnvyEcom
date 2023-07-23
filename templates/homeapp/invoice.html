@@ -1,4 +1,4 @@
-
+ 
 <script>
 	addEventListener("load", function () {
 		setTimeout(hideURLbar, 0);
@@ -21,9 +21,8 @@
 	rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
 <style>
-    body{margin-top:20px;
-background-color:#eee;
-}
+
+
 
 .card {
     box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
@@ -36,26 +35,305 @@ background-color:#eee;
     word-wrap: break-word;
     background-color: #fff;
     background-clip: border-box;
-    border: 0 solid rgba(0,0,0,.125);
+    border: 1px solid rgba(0,0,0,.125);
     border-radius: 1rem;
 }
 </style>
 
+<div class="banner-top container-fluid" id="home">
+    <!-- header -->
+    <header class="d-print-none">
+        <div class="row">
+            <div class="col-md-3 top-info text-left mt-lg-4">
+                <h6>Need Help</h6>
+                <ul>
+                    <li>
+                        <i class="fas fa-phone"></i> Call</li>
+                    <li class="number-phone mt-3">12345678099</li>
+                </ul>
+            </div>
+            <div class="col-md-6 logo-w3layouts text-center">
+                <h1 class="logo-w3layouts">
+                    <a class="navbar-brand" href="{% url 'index' %}">
+                        EyeEnvy
+                     </a>
+                </h1>
+            </div>
+            
+            <div class="col-md-3 top-info-cart text-right mt-lg-4">
+                <ul class="cart-inner-info">
+                    <li>
+                        <div class="dropdown show">
+                            <a class="btn  dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style = "background-color: white; border: black solid 1px; color: black;">
+                                {% if user.is_authenticated %}
+                                {{ user.first_name }}
+                                {% else %}
+                                Login
+                                {% endif %}
+                            </a>
+                            {% if user.is_authenticated %}
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" href="{% url 'handlelogout' %}">Logout</a>
+                                <a class="dropdown-item" href="{% url 'profile' %}">My profile</a>
+                                <a class="dropdown-item" href="{% url 'myorders' %}">My orders</a>
+                                <a class="dropdown-item" href="{% url 'wishlist' %}">My wishlist</a>
+                            </div>
+                            {% else %}
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                              <a class="dropdown-item" href="{% url 'handlelogin' %}">Login</a>
+                              <a class="dropdown-item" href="{% url 'signup' %}">Signup</a>
+                              <a class="dropdown-item" href="#">About</a>
+                            </div>
+                            {% endif %}
+                          </div>
+                        
+                        {% comment %} <a class="btn-open" href="#">
+                            <span class="fa fa-user" aria-hidden="true"></span>
+                        </a> {% endcomment %}
+                    </li>
+                    <li class="galssescart galssescart2 cart cart box_1">
 
+                            <a href = "{% url 'cart' %}">
+                            <button class="top_googles_cart" type="" name="submit" value="">
+                                My Cart
+                                <i class="fas fa-cart-arrow-down"></i>
+                            </button></a>
+                    
+                    </li>
+                    {% comment %} <li class="galssescart galssescart2 cart cart box_1">
+                            <button class="top_googles_cart" type="submit" name="submit" value="">
+                                <a href = "{% url 'handlelogout' %}">logout</a>
+                            </button>
+                    </li> {% endcomment %}
+                </ul>
+                <!---->
+                <div class="overlay-login text-left">
+                    <button type="button" class="overlay-close1">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                    <div class="wrap">
+                        <h5 class="text-center mb-4">Login Now For More Details</h5>
+                        <div class="login p-5 bg-dark mx-auto mw-100">
+                            {% comment %} <form action="#" method="post">
+                                <div class="form-group">
+                                    <label class="mb-2">Email address</label>
+                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" required="">
+                                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                </div>
+                                <div class="form-group">
+                                    <label class="mb-2">Password</label>
+                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="" required="">
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                                </div>
+                                
 
+                            </form> {% endcomment %}
+                            <button type="submit" class="btn btn-primary submit mb-4"><a href="{% url 'handlelogin' %}">Sign In</a></button>
+                        </div>
+                        <!---->
+                    </div>
+                </div>
+                <!---->
+            </div>
+        </div>
+        <div class="search">
+            <div class="mobile-nav-button">
+                <button id="trigger-overlay" type="button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <!-- open/close -->
+            <div class="overlay overlay-door">
+                <button type="button" class="overlay-close">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
+                <form action="#" method="post" class="d-flex">
+                    <input class="form-control" type="search" placeholder="Search here..." required="">
+                    <button type="submit" class="btn btn-primary submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+
+            </div>
+            <!-- open/close -->
+        </div>
+        <label class="top-log mx-auto"></label>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light top-header mb-2">
+
+            <button class="navbar-toggler mx-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon">
+                    
+                </span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav nav-mega mx-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link ml-lg-0" href="{% url 'index' %}">Home
+                        
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Features
+                        </a>
+                        <ul class="dropdown-menu mega-menu ">
+                            <li>
+                                <div class="row">
+                                    <div class="col-md-4 media-list span4 text-left">
+                                        <h5 class="tittle-w3layouts-sub"> Tittle goes here </h5>
+                                        <ul>
+                                            <li class="media-mini mt-3">
+                                                <a href="{% url 'store' %}">Designer Glasses</a>
+                                            </li>
+                                            <li class="">
+                                                <a href="{% url 'store' %}"> Ray-Ban</a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'store' %}">Prescription Glasses</a>
+                                            </li>
+                                            <li class="mt-3">
+                                                <h5>View more pages</h5>
+                                            </li>
+                                            <li class="mt-2">
+                                                <a href="about.html">About</a>
+                                            </li>
+                                            <li>
+                                                <a href="customer.html">Customers</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    
+                                </div>
+                                <hr>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Shop
+                        </a>
+                        <ul class="dropdown-menu mega-menu ">
+                            <li>
+                                <div class="row">
+                                    <div class="col-md-4 media-list span4 text-left">
+                                        <h5 class="tittle-w3layouts-sub"> Tittle goes here </h5>
+                                        <ul>
+                                            <li class="media-mini mt-3">
+                                                <a href="{% url 'store' %}">Designer Glasses</a>
+                                            </li>
+                                            <li class="">
+                                                <a href="{% url 'store' %}"> Ray-Ban</a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'store' %}">Prescription Glasses</a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'store' %}">Rx Sunglasses</a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'store' %}">Contact Lenses</a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'store' %}">Multifocal Glasses</a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'store' %}">Kids Glasses</a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'store' %}">Lightweight Glasses</a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'store' %}">Sports Glasses</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-4 media-list span4 text-left">
+                                        <h5 class="tittle-w3layouts-sub"> Tittle goes here </h5>
+                                        <ul>
+                                            <li class="media-mini mt-3">
+
+                                                <a href="{% url 'store' %}">Brooks Brothers</a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'store' %}">Persol</a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'store' %}">Polo Ralph Lauren</a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'store' %}">Prada</a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'store' %}">Ray-Ban Jr</a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'store' %}">Sferoflex</a>
+                                            </li>
+                                        </ul>
+                                        <ul class="sub-in text-left">
+
+                                            <li>
+                                                <a href="{% url 'store' %}">Polo Ralph Lauren</a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'store' %}">Prada</a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'store' %}">Ray-Ban Jr</a>
+                                            </li>
+                                        </ul>
+
+                                    </div>
+                                    <div class="col-md-4 media-list span4 text-left">
+
+                                        <h5 class="tittle-w3layouts-sub-nav">Tittle goes here </h5>
+                                        <div class="media-mini mt-3">
+                                            <a href="{% url 'store' %}">
+                                                <img src="images/g1.jpg" class="img-fluid" alt="">
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <hr>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
+    </header>
+<div>
+
+<div class="d-print-none p-5" style="display:flex; justify-content:center;">
+    <h1>Order Confirmed</h1>
+</div>
 <div class="container">
 <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
                     <div class="invoice-title">
-                        <h4 class="float-end font-size-15">Invoice #DS0204 <span class="badge bg-success font-size-12 ms-2">Paid</span></h4>
+                        <h4 class="float-end font-size-15">Invoice {{ order.order_id }} <span class="badge bg-success font-size-12 ms-2">Paid</span></h4>
                         <div class="mb-4">
-                           <h2 class="mb-1 text-muted">Bootdey.com</h2>
+                           <h2 class="mb-1 text-muted">EyeEnvy</h2>
                         </div>
                         <div class="text-muted">
-                            <p class="mb-1">3184 Spruce Drive Pittsburgh, PA 15201</p>
-                            <p class="mb-1"><i class="uil uil-envelope-alt me-1"></i> xyz@987.com</p>
+                            <p class="mb-1">kinfra industrial techno park , calicut, PA 15201</p>
+                            <p class="mb-1"><i class="uil uil-envelope-alt me-1"></i> eyeenvyecome@gmail.com</p>
                             <p><i class="uil uil-phone me-1"></i> 012-345-6789</p>
                         </div>
                     </div>
@@ -66,10 +344,10 @@ background-color:#eee;
                         <div class="col-sm-6">
                             <div class="text-muted">
                                 <h5 class="font-size-16 mb-3">Billed To:</h5>
-                                <h5 class="font-size-15 mb-2">Preston Miller</h5>
-                                <p class="mb-1">4068 Post Avenue Newfolden, MN 56738</p>
-                                <p class="mb-1">PrestonMiller@armyspy.com</p>
-                                <p>001-234-5678</p>
+                                <h5 class="font-size-15 mb-2">{{ order.address.fullname }}</h5>
+                                <p class="mb-1">{{ order.address.house_name }} {{ order.address.city }}, {{ order.address.pincode }}</p>
+                                <p class="mb-1">{{ user.email }}</p>
+                                <p>{{order.address.contact_number }}</p>
                             </div>
                         </div>
                         <!-- end col -->
@@ -77,15 +355,11 @@ background-color:#eee;
                             <div class="text-muted text-sm-end">
                                 <div>
                                     <h5 class="font-size-15 mb-1">Invoice No:</h5>
-                                    <p>#DZ0112</p>
+                                    <p>{{ order.order_id }}</p>
                                 </div>
                                 <div class="mt-4">
                                     <h5 class="font-size-15 mb-1">Invoice Date:</h5>
-                                    <p>12 Oct, 2020</p>
-                                </div>
-                                <div class="mt-4">
-                                    <h5 class="font-size-15 mb-1">Order No:</h5>
-                                    <p>#1123456</p>
+                                    <p>{{ order.created_at }}</p>
                                 </div>
                             </div>
                         </div>
@@ -108,58 +382,41 @@ background-color:#eee;
                                     </tr>
                                 </thead><!-- end thead -->
                                 <tbody>
+                                    {% for item in orderitems %}
+                                    
+                                    
                                     <tr>
                                         <th scope="row">01</th>
                                         <td>
                                             <div>
-                                                <h5 class="text-truncate font-size-14 mb-1">Black Strap A012</h5>
-                                                <p class="text-muted mb-0">Watch, Black</p>
+                                                <h5 class="text-truncate font-size-14 mb-1">{{ item.product.product_name }}</h5>
+                                                <p class="text-muted mb-0">{{ item.product.category.category_name }}</p>
                                             </div>
                                         </td>
-                                        <td>$ 245.50</td>
-                                        <td>1</td>
-                                        <td class="text-end">$ 245.50</td>
+                                        <td>&#8377; {{ item.product_price }}</td>
+                                        <td>{{ item.quantity }}</td>
+                                        <td class="text-end">&#8377; {{ item.sub_total }}</td>
                                     </tr>
+                                    {% endfor %}
                                     <!-- end tr -->
-                                    <tr>
-                                        <th scope="row">02</th>
-                                        <td>
-                                            <div>
-                                                <h5 class="text-truncate font-size-14 mb-1">Stainless Steel S010</h5>
-                                                <p class="text-muted mb-0">Watch, Gold</p>
-                                            </div>
-                                        </td>
-                                        <td>$ 245.50</td>
-                                        <td>2</td>
-                                        <td class="text-end">$491.00</td>
-                                    </tr>
                                     <!-- end tr -->
+                                    {% if order.coupon_discount %}
                                     <tr>
                                         <th scope="row" colspan="4" class="text-end">Sub Total</th>
-                                        <td class="text-end">$732.50</td>
+                                        <td class="text-end">&#8377; {{ pretotal }}</td>
                                     </tr>
                                     <!-- end tr -->
+                                    
                                     <tr>
                                         <th scope="row" colspan="4" class="border-0 text-end">
                                             Discount :</th>
-                                        <td class="border-0 text-end">- $25.50</td>
+                                        <td class="border-0 text-end">- &#8377;{{ order.coupon_discount }}</td>
                                     </tr>
-                                    <!-- end tr -->
-                                    <tr>
-                                        <th scope="row" colspan="4" class="border-0 text-end">
-                                            Shipping Charge :</th>
-                                        <td class="border-0 text-end">$20.00</td>
-                                    </tr>
-                                    <!-- end tr -->
-                                    <tr>
-                                        <th scope="row" colspan="4" class="border-0 text-end">
-                                            Tax</th>
-                                        <td class="border-0 text-end">$12.00</td>
-                                    </tr>
+                                    {% endif %}
                                     <!-- end tr -->
                                     <tr>
                                         <th scope="row" colspan="4" class="border-0 text-end">Total</th>
-                                        <td class="border-0 text-end"><h4 class="m-0 fw-semibold">$739.00</h4></td>
+                                        <td class="border-0 text-end"><h4 class="m-0 fw-semibold">&#8377;{{ total }}</h4></td>
                                     </tr>
                                     <!-- end tr -->
                                 </tbody><!-- end tbody -->
@@ -177,3 +434,255 @@ background-color:#eee;
         </div><!-- end col -->
     </div>
 </div>
+
+<footer class="py-lg-5 py-3 d-print-none">
+    <div class="container-fluid px-lg-5 px-3">
+      <div class="row footer-top-w3layouts">
+        <div class="col-lg-3 footer-grid-w3ls">
+          <div class="footer-title">
+            <h3>About Us</h3>
+          </div>
+          <div class="footer-text">
+            <p>
+              Curabitur non nulla sit amet nislinit tempus convallis quis ac
+              lectus. lac inia eget consectetur sed, convallis at tellus.
+              Nulla porttitor accumsana tincidunt.
+            </p>
+            <ul class="footer-social text-left mt-lg-4 mt-3">
+              <li class="mx-2">
+                <a href="#">
+                  <span class="fab fa-facebook-f"></span>
+                </a>
+              </li>
+              <li class="mx-2">
+                <a href="#">
+                  <span class="fab fa-twitter"></span>
+                </a>
+              </li>
+              <li class="mx-2">
+                <a href="#">
+                  <span class="fab fa-google-plus-g"></span>
+                </a>
+              </li>
+              <li class="mx-2">
+                <a href="#">
+                  <span class="fab fa-linkedin-in"></span>
+                </a>
+              </li>
+              <li class="mx-2">
+                <a href="#">
+                  <span class="fas fa-rss"></span>
+                </a>
+              </li>
+              <li class="mx-2">
+                <a href="#">
+                  <span class="fab fa-vk"></span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-3 footer-grid-w3ls">
+          <div class="footer-title">
+            <h3>Get in touch</h3>
+          </div>
+          <div class="contact-info">
+            <h4>Location :</h4>
+            <p>0926k 4th block building, king Avenue, New York City.</p>
+            <div class="phone">
+              <h4>Contact :</h4>
+              <p>Phone : +121 098 8907 9987</p>
+              <p>
+                Email :
+                <a href="mailto:info@example.com">info@example.com</a>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 footer-grid-w3ls">
+          <div class="footer-title">
+            <h3>Quick Links</h3>
+          </div>
+          <ul class="links">
+            <li>
+              <a href="{% url 'index' %}">Home</a>
+            </li>
+            <li>
+              <a href="about.html">About</a>
+            </li>
+            <li>
+              <a href="404.html">Error</a>
+            </li>
+            <li>
+              <a href="{% url 'store' %}">Shop</a>
+            </li>
+            <li>
+              <a href="contact.html">Contact Us</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-lg-3 footer-grid-w3ls">
+          <div class="footer-title">
+            <h3>Sign up for your offers</h3>
+          </div>
+          <div class="footer-text">
+            <p>
+              By subscribing to our mailing list you will always get latest
+              news and updates from us.
+            </p>
+            <form action="#" method="post">
+              <input
+                class="form-control"
+                type="email"
+                name="Email"
+                placeholder="Enter your email..."
+                required=""
+              />
+              <button class="btn1">
+                <i class="far fa-envelope" aria-hidden="true"></i>
+              </button>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="copyright-w3layouts mt-4">
+        <p class="copy-right text-center">
+          &copy; 2018 Goggles. All Rights Reserved | Design by
+          <a href="http://w3layouts.com/"> W3layouts </a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  	<!--jQuery-->
+	<script src="static/js/jquery-2.2.3.min.js"></script>
+	<!--search jQuery-->
+	<script src="static/js/modernizr-2.6.2.min.js"></script>
+	<script src="static/js/classie-search.js"></script>
+	<script src="static/js/demo1-search.js"></script>
+	<!--//search jQuery-->
+	<!-- cart-js -->
+	<script src="static/js/minicart.js"></script>
+	<script>
+		googles.render();
+
+		googles.cart.on('googles_checkout', function (evt) {
+			var items, len, i;
+
+			if (this.subtotal() > 0) {
+				items = this.items();
+
+				for (i = 0, len = items.length; i < len; i++) {}
+			}
+		});
+	</script>
+	<!-- //cart-js -->
+	<script>
+		$(document).ready(function () {
+			$(".button-log a").click(function () {
+				$(".overlay-login").fadeToggle(200);
+				$(this).toggleClass('btn-open').toggleClass('btn-close');
+			});
+		});
+		$('.overlay-close1').on('click', function () {
+			$(".overlay-login").fadeToggle(200);
+			$(".button-log a").toggleClass('btn-open').toggleClass('btn-close');
+			open = false;
+		});
+	</script>
+	<!-- carousel -->
+	<!-- Count-down -->
+	<script src="static/js/simplyCountdown.js"></script>
+	<link href="static/css/simplyCountdown.css" rel='stylesheet' type='text/css' />
+	<script>
+		var d = new Date();
+		simplyCountdown('simply-countdown-custom', {
+			year: d.getFullYear(),
+			month: d.getMonth() + 2,
+			day: 25
+		});
+	</script>
+	<!--// Count-down -->
+	<script src="static/js/owl.carousel.js"></script>
+	<script>
+		$(document).ready(function () {
+			$('.owl-carousel').owlCarousel({
+				loop: true,
+				margin: 10,
+				responsiveClass: true,
+				responsive: {
+					0: {
+						items: 1,
+						nav: true
+					},
+					600: {
+						items: 2,
+						nav: false
+					},
+					900: {
+						items: 3,
+						nav: false
+					},
+					1000: {
+						items: 4,
+						nav: true,
+						loop: false,
+						margin: 20
+					}
+				}
+			})
+		})
+	</script>
+
+	<!-- //end-smooth-scrolling -->
+
+
+	<!-- dropdown nav -->
+	<script>
+		$(document).ready(function () {
+			$(".dropdown").hover(
+				function () {
+					$('.dropdown-menu', this).stop(true, true).slideDown("fast");
+					$(this).toggleClass('open');
+				},
+				function () {
+					$('.dropdown-menu', this).stop(true, true).slideUp("fast");
+					$(this).toggleClass('open');
+				}
+			);
+		});
+	</script>
+	<!-- //dropdown nav -->
+  <script src="static/js/move-top.js"></script>
+    <script src="static/js/easing.js"></script>
+    <script>
+        jQuery(document).ready(function($) {
+            $(".scroll").click(function(event) {
+                event.preventDefault();
+                $('html,body').animate({
+                    scrollTop: $(this.hash).offset().top
+                }, 900);
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            /*
+            						var defaults = {
+            							  containerID: 'toTop', // fading element id
+            							containerHoverID: 'toTopHover', // fading element hover id
+            							scrollSpeed: 1200,
+            							easingType: 'linear' 
+            						 };
+            						*/
+
+            $().UItoTop({
+                easingType: 'easeOutQuart'
+            });
+
+        });
+    </script>
+    <!--// end-smoth-scrolling -->
+
+	<script src="static/js/bootstrap.js"></script>
