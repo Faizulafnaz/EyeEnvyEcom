@@ -22,7 +22,7 @@ class Coupon(models.Model):
         return self.coupon_code
     
     def is_expired(self):
-        return self.expiry_date > date.today()
+        return self.expiry_date < date.today()
 
 class Offer(models.Model):
     name = models.CharField(max_length=50)

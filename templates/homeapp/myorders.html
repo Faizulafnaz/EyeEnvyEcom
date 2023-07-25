@@ -53,6 +53,8 @@
                             <th>Price</th>
                             <th>Status</th>
                             <th>Action</th>
+                            <th>Details</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -106,6 +108,7 @@
                                   {% endif %}
                                 </div>
                             </td>
+                            <td class="invert"><a href="{% url 'invoice' item.id %}">View details</a></td>
                         </tr>
                     {% endfor %}
                     </tbody>

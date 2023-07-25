@@ -95,7 +95,7 @@ def delete_cart(request, product_id):
 
 # For showing cart items on cart page 
 
-def cart(request, total=0, quantity=0, cart_items=None,count=0,coupons=None, cart=None, discount_amount=0):
+def cart(request, total=0, quantity=0, cart_items=None,count=0,coupons=None, cart=None, discount_amount=0,subtotal=0):
 
     try:
         if request.user.is_authenticated:
@@ -115,6 +115,7 @@ def cart(request, total=0, quantity=0, cart_items=None,count=0,coupons=None, car
 
             quantity += cart_item.quantity
             count += 1
+            subtotal = total
     except:
         pass
     
@@ -138,7 +139,9 @@ def cart(request, total=0, quantity=0, cart_items=None,count=0,coupons=None, car
             if discount_amount > coupon.max_discount:
                 discount_amount = coupon.max_discount
 
+            subtotal = total
             total -= discount_amount
+
             cart.coupon = coupon
             cart.save()
                 
@@ -154,6 +157,7 @@ def cart(request, total=0, quantity=0, cart_items=None,count=0,coupons=None, car
         'coupons': coupons,
         'cart':cart,
         'discount_amount':discount_amount,
+        'sub_total':subtotal,
     }
 
     return render(request, "homeapp/cart.html", context)

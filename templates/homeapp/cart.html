@@ -173,15 +173,11 @@
 					{% for cart_item in cart_items %}
 					
 					
-					<li>{{ cart_item.product.product_name }}	
+					<li>Sub total	
 						<i>-</i>
-						{% if cart_item.product.offer %}
-						<span style="color: black;"><del>{{ cart_item.sub_total }}</del> {{ cart_item.sub_total_with_offer }}</span>
-						{% elif cart_item.product.category.offer %}
-						<span style="color: black;"><del>{{ cart_item.sub_total }}</del> {{ cart_item.sub_total_with_offer_category }}</span>
-						{% else %}
-						<span style="color: black;">{{ cart_item.sub_total }}</span>
-						{% endif %}
+						
+						<span style="color: black;">{{ sub_total }}</span>
+						
 					</li>
 					{% endfor %}
 					{% if cart.coupon %}

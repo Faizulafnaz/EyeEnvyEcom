@@ -202,18 +202,25 @@ def success(request, total = 0):
         order.save()
         cart_items = CartItem.objects.filter(user=request.user)
         for cart_item in cart_items:
+            product_price = 0
+            if cart_item.product.offer:
+                product_price = cart_item.product.get_offer_price()
+            elif cart_item.product.category.offer:
+                product_price = cart_item.product.get_offer_price_by_category()
+            else:
+                product_price = cart_item.product.price
             orderitem = OrderItem(
                 user = request.user,
                 order = order,
                 product = cart_item.product,
                 payment = payment,
-                product_price = cart_item.product.price,
+                product_price = product_price,
                 quantity = cart_item.quantity,
                 status = 'accepted',
             )
             orderitem.save()
 
-            total += cart_item.sub_total()
+            total += orderitem.sub_total()
 
 
     
@@ -231,23 +238,45 @@ def success(request, total = 0):
         [request.user.email],
         fail_silently=False
         )
+        if order.coupon_discount:
+            pretotal=total
+            total -= order.coupon_discount
+
+
+        orderitems = OrderItem.objects.filter(user=request.user, order=order)
         # Removing Cart items
-        CartItem.objects.filter(user=request.user).delete()   
-        return render(request, "homeapp/confirm.html")
+        CartItem.objects.filter(user=request.user).delete() 
+        context = {
+            'order' : order,
+            'orderitems' : orderitems,
+            'total' : total,
+            'pretotal':pretotal,
+            
+        }
+        return render(request, "homeapp/invoice.html", context)
 
 
 # invoice function
 def invoice(request, id):
-
+    total = 0
+    pretotal = 0
     # id from user side(my orders)
     order_item = OrderItem.objects.get(id = id)
     # for retreving the order
     order = Order.objects.get(order_id = order_item.order.order_id)
     # for retreving all ordered items in that order
     order_items = OrderItem.objects.filter(order = order)
+    for item in order_items:
+        total += item.sub_total()
+    if order.coupon_discount:
+            pretotal=total
+            total -= order.coupon_discount
     context = {
         'order':order,
-        'order_items':order_items,
+        'orderitems':order_items,
+        'total' : total,
+        'pretotal':pretotal,
+        'f':True,
 
     }
     return render(request, 'homeapp/invoice.html', context)

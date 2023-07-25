@@ -319,7 +319,7 @@
 <div>
 
 <div class="d-print-none p-5" style="display:flex; justify-content:center;">
-    <h1>Order Confirmed</h1>
+   {% if not f %} <h1>Order Confirmed</h1> {% endif %}
 </div>
 <div class="container">
 <div class="row">
@@ -366,7 +366,7 @@
                         <!-- end col -->
                     </div>
                     <!-- end row -->
-                    
+                    <br>
                     <div class="py-2">
                         <h5 class="font-size-15">Order Summary</h5>
 
