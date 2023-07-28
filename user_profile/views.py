@@ -4,10 +4,10 @@ from user_profile.models import UserAddress, UserProfile
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate
-
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
-
+@login_required(login_url='handlelogin')
 def add_user_address(request):
     if request.method == "POST":
        name = request.POST['name']
@@ -38,7 +38,7 @@ def add_user_address(request):
        return redirect('placeorder')
 
 
-
+@login_required(login_url='handlelogin')
 def profile(request):
      if request.user.is_authenticated:
           user_address = None
@@ -56,7 +56,7 @@ def profile(request):
           return render(request, 'homeapp/profile.html', context)
 
 
-     
+@login_required(login_url='handlelogin')     
 def edit_profile(request):
     if request.method == "POST":
         image = ''
@@ -96,7 +96,7 @@ def edit_profile(request):
         messages.success(request, 'Your details updated')
         return redirect(profile)
 
-
+@login_required(login_url='handlelogin')
 def change_password(request):
     if request.method == "POST":
         password = request.POST['password']
@@ -121,7 +121,7 @@ def change_password(request):
         
     return render(request, 'homeapp/changepassword.html')
 
-
+@login_required(login_url='handlelogin')
 def edit_address(request, id):
     if request.method == "POST":
        name = request.POST['fname']

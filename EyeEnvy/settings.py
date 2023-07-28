@@ -96,6 +96,7 @@ DATABASES = {
 
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'eyeenvydb',
+        #'NAME': 'test1',
         'USER': 'postgres',
         'PASSWORD': 'aezakmi007@',
         'HOST': 'localhost',

@@ -4,12 +4,14 @@ from category.models import *
 from offers.models import Offer
 from django.contrib import messages
 from category.models import Category
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 #product section-------------------------------
 
 #for showing products on the admin side
+@login_required(login_url='admin_login')
 def products(request):
     products = Product.objects.all().filter(is_available = True)
     context = {
@@ -19,6 +21,7 @@ def products(request):
     return render(request, 'adminpanel/page-products-grid-2.html', context)
 
 #for adding a new product
+@login_required(login_url='admin_login')
 def add_product(request):
 
     if request.method == 'POST':
@@ -94,6 +97,7 @@ def add_product(request):
 
 
 #for editing the details of existing product
+@login_required(login_url='admin_login')
 def edit_product(request, id):
 
     if request.method == "POST":
@@ -161,7 +165,7 @@ def edit_product(request, id):
 
     return render(request, "adminpanel/product-update.html", context)
 
-
+@login_required(login_url='admin_login')
 def delete_product(request, id):
 
     product = Product.objects.get(id=id)
@@ -173,7 +177,7 @@ def delete_product(request, id):
 
 
 # Category section-------------
-
+@login_required(login_url='admin_login')
 def add_category(request):
 
     if request.method == 'POST':        
@@ -225,7 +229,7 @@ def add_category(request):
 
     return render(request, 'adminpanel/page-categories.html', context)
 
-
+@login_required(login_url='admin_login')
 def edit_category(request, id):
     if request.method == "POST":
         name = request.POST['name']
@@ -254,7 +258,7 @@ def edit_category(request, id):
     }
     return render(request, "adminpanel/update-category.html", context)
 
-
+@login_required(login_url='admin_login')
 def delete_category(request, id):
     category = Category.objects.get(id=id)
     name = category.category_name
@@ -266,6 +270,7 @@ def delete_category(request, id):
 
 
 # brand section-------------------
+@login_required(login_url='admin_login')
 def add_brand(request):
     if request.method == "POST":
         name = request.POST['name']
@@ -284,7 +289,7 @@ def add_brand(request):
     }
     return render(request,"adminpanel/brand.html", context)
 
-
+@login_required(login_url='admin_login')
 def edit_brand(request, id):
     brand = Brand.objects.get(id=id)
     if request.method == "POST":

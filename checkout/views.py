@@ -1,8 +1,10 @@
 from django.shortcuts import redirect, render
 from user_profile.models import UserAddress
 from cart.models import *
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required(login_url='handlelogin')
 def checkout(request):
     if request.user.is_authenticated:
         cart_items = CartItem.objects.filter(user=request.user)

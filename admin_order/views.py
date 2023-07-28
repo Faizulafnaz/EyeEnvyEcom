@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from order.models import *
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-
+@login_required(login_url='admin_login')
 def order_details(request):
     order_items = OrderItem.objects.all()
     context = {
@@ -10,6 +11,7 @@ def order_details(request):
     }
     return render(request, 'adminpanel/page-orders-1.html', context)
 
+@login_required(login_url='admin_login')
 def order_manage(request, id):
     cart_item = OrderItem.objects.get(id = id )
     if request.method == "POST":

@@ -9,10 +9,12 @@ import razorpay
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from cart.views import _session_id
+from django.contrib.auth.decorators import login_required
 
 
 
 # Create your views here.
+@login_required(login_url='handlelogin')
 def payments(request, total = 0):
 
     # saving payment details
@@ -92,7 +94,7 @@ def payments(request, total = 0):
 
     return render(request, 'homeapp/payment.html') 
 
-
+@login_required(login_url='handlelogin')
 def place_order(request):
 
     if request.user.is_authenticated:
@@ -149,7 +151,8 @@ def place_order(request):
             'discount_amount': discount_amount,
         }
         return render(request,'homeapp/payment.html', context)
-    
+
+@login_required(login_url='handlelogin')    
 def my_orders(request):
     myorders = OrderItem.objects.filter(Q(user=request.user) & ~Q(status='pending'))
     context = {
@@ -157,7 +160,7 @@ def my_orders(request):
     }
     return render(request, 'homeapp/myorders.html', context)
 
-
+@login_required(login_url='handlelogin')
 def cancel_orders(request, id):
      
     item = OrderItem.objects.get(id = id)
@@ -188,6 +191,7 @@ def pre_success(request):
 
 
 # for order confirmation page and adding payment details
+@login_required(login_url='handlelogin')
 def success(request, total = 0):
         payment_method = PaymentMethod.objects.get(id=2)
         payment = Payment(
@@ -257,6 +261,7 @@ def success(request, total = 0):
 
 
 # invoice function
+@login_required(login_url='handlelogin')
 def invoice(request, id):
     total = 0
     pretotal = 0

@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from .models import Offer, Coupon
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 # for adding a new offer
+@login_required(login_url='admin_login')
 def add_offer(request):
     if request.method == "POST":
         name = request.POST['name']
@@ -33,7 +35,7 @@ def add_offer(request):
 
 
 #for adding new coupons----------------------------------------------
-
+@login_required(login_url='admin_login')
 def add_coupon(request):
     if request.method == "POST":
         name = request.POST['name']

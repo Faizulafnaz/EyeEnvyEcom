@@ -163,7 +163,7 @@ def otp_login(request):
     
     return render(request, 'authentication/otp_login.html')        
 
-
+@login_required(login_url='handlelogin')
 def handlelogout(request):
     logout(request)
     return HttpResponseRedirect("/")
@@ -209,7 +209,7 @@ def forgot_password(request):
 
      return render(request, 'authentication/forgotpassword.html')
 
-
+@login_required(login_url='handlelogin')
 def reset_password(request):
     if  request.method == "POST":
         pass1 = request.POST['password']

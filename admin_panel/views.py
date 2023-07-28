@@ -66,7 +66,7 @@ def admin_dashboard(request):
         return render(request, 'adminpanel/index.html', context)
     return render(request, 'adminpanel/adminlogin.html')
 
-# for getting month name--------------------------------------
+# for getting month name --------------------------------------------
 
 
 
@@ -120,7 +120,7 @@ def user_details(request):
     return render(request, 'adminpanel/user.html', context)
 
 
-
+@login_required(login_url='admin_login')
 def user_action(request, id):
     usr = User.objects.get(id=id)
     if usr.is_active:
@@ -133,7 +133,7 @@ def user_action(request, id):
         usr.save()  
         return redirect(user_details)
 
-
+@login_required(login_url='admin_login')
 def search_users(request):  
     search_text = request.POST['query']
     context = {
@@ -146,7 +146,7 @@ def search_users(request):
 
 
 # sales report ------------------------------------------------------------------------------------
-
+@login_required(login_url='admin_login')
 def sales_report(request):
     if not request.user.is_superuser:
         return redirect(admin_login)
