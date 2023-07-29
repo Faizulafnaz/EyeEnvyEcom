@@ -34,6 +34,7 @@ def add_wishlist(request, id):
         raise e
     return redirect('product_details', product.slug)
 
+@login_required(login_url='handlelogin')
 def delete_wishlist(request, id):
     usr = request.user.id
     product = Wishlist.objects.get(user = usr ,product = id)

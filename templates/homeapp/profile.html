@@ -128,7 +128,9 @@
                   <figure class="text-lg-center">
                     <img
                       class="img-lg mb-3 img-avatar"
+                      {% if user_profile.profile_picture %}
                       src="{{ user_profile.profile_picture.url }}"
+                      {% endif %}
                       alt="User Photo"
                       value="{{ user_profile.profile_picture }}"
                     />
