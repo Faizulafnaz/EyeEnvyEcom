@@ -190,7 +190,7 @@
                       Out of Stock
                     </button>
                     {% else %}
-                    <a href="{% url 'add_wishlist' single_product.id %}">
+                    <a href="{% url 'addcart' single_product.id %}">
                     <button type="submit" class="googles-cart pgoogles-cart">
                       Add to Cart
                     </button></a>
@@ -245,16 +245,16 @@
               <div id="horizontalTab">
                 <ul class="resp-tabs-list">
                   <li>Description</li>
-                  <li>Reviews</li>
+                  
                   <li>Information</li>
                 </ul>
                 <div class="resp-tabs-container">
                   <!--/tab_one-->
                   <div class="tab1">
                     <div class="single_page">
-                      <h6>{{ single_product.product_name }}</h6>
+                      <h6 class="p-5">{{ single_product.description }}</h6>
                       <p>
-                        {{ single_product.product_decs }}
+                        {{ single_product.product_name }}
                       </p>
                       
                     </div>
@@ -295,7 +295,7 @@
                           </div>
                           <div class="clearfix"></div>
                         </div>
-                        <div class="add-review">
+                        {% comment %} <div class="add-review">
                           <h4>add a review</h4>
                           <form action="#" method="post">
                             <input
@@ -315,7 +315,7 @@
                             <textarea name="Message" required=""></textarea>
                             <input type="submit" value="SEND" />
                           </form>
-                        </div>
+                        </div> {% endcomment %}
                       </div>
                     </div>
                   </div>

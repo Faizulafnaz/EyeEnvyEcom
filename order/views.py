@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 @login_required(login_url='handlelogin')
-def payments(request, total = 0):
+def payments(request, total = 0, pretotal=0):
 
     # saving payment details
     if request.user.is_authenticated:
@@ -154,7 +154,7 @@ def place_order(request):
 
 @login_required(login_url='handlelogin')    
 def my_orders(request):
-    myorders = OrderItem.objects.filter(Q(user=request.user) & ~Q(status='pending'))
+    myorders = OrderItem.objects.filter(Q(user=request.user) & ~Q(status='pending')).order_by('-created_at')
     context = {
         "myorders":myorders,
     }

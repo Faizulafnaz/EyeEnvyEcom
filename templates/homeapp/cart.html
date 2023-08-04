@@ -170,7 +170,7 @@
 			<div class="col-md-4 checkout-left-basket " >
 				<a href = "{% url 'store' %}"><h4>Continue to basket</h4></a>
 				<ul style="border: 1px solid black dashed;">
-					{% for cart_item in cart_items %}
+					
 					
 					
 					<li>Sub total	
@@ -179,7 +179,7 @@
 						<span style="color: black;">{{ sub_total }}</span>
 						
 					</li>
-					{% endfor %}
+					
 					{% if cart.coupon %}
 					<li>Coupon discount
 						<i>-</i>
